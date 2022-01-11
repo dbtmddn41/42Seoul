@@ -6,7 +6,7 @@
 #    By: slyu <slyu@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/10 14:25:00 by slyu              #+#    #+#              #
-#    Updated: 2022/01/10 15:08:07 by slyu             ###   ########.fr        #
+#    Updated: 2022/01/11 21:57:46 by slyu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,8 @@ ifdef WITH_BONUS
 	OBJ_FILES = ${OBJS} ${BONUS_OBJS}
 else
 	OBJ_FILES = ${OBJS}
+endif
+
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
