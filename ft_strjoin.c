@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/06 15:03:14 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2);
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -23,7 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	str = (char *) malloc(s1_len + s2_len + 1);
+	str = (char *)malloc(s1_len + s2_len + 1);
 	if (!str)
 		return (0);
 	ft_memcpy(str, s1, s1_len);

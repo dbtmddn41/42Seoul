@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/06 20:26:18 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-char	*ft_itoa(int n);
+#include "libft.h"
 
 static char	*make_numstr(char *num_str, unsigned int n, int jarisu, int index)
 {
@@ -45,7 +44,7 @@ static int	check_jarisu(unsigned int n)
 	{
 		n /= 10;
 		i++;
-	}	
+	}
 	return (i);
 }
 
@@ -65,7 +64,7 @@ char	*ft_itoa(int n)
 	else
 		abs_n = n;
 	jarisu = check_jarisu(abs_n);
-	num_str = (char *) malloc(jarisu + 1 - i);
+	num_str = (char *)malloc(jarisu + 1 - i);
 	if (!num_str)
 		return (0);
 	if (i == -1)

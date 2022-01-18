@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/06 18:52:48 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-char	**ft_split(char const *s, char c);
+#include "libft.h"
 
 static int	count_word(char const *s, char c)
 {
@@ -101,13 +100,13 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	num = count_word(s, c);
-	sen = (char **) malloc(sizeof(char *) * (num + 1));
+	sen = (char **)malloc(sizeof(char *) * (num + 1));
 	if (!sen)
 		return (0);
 	i = -1;
 	while (++i < num)
 	{
-		sen[i] = (char *) malloc(sizeof(char) * (count_letter(s, c, i) + 1));
+		sen[i] = (char *)malloc(sizeof(char) * (count_letter(s, c, i) + 1));
 		if (!sen[i])
 		{
 			while (--i >= 0)

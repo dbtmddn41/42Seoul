@@ -9,6 +9,7 @@
 /*   Updated: 2021/11/23 17:28:10 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -24,5 +25,5 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			break ;
 		i++;
 	}
-	return ((unsigned char) *(s1 + i) - (unsigned char) *(s2 + i));
+	return ((unsigned char)*(s1 + i) - (unsigned char)*(s2 + i));
 }

@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/07 15:52:57 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd);
+#include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

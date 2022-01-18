@@ -26,7 +26,7 @@ static void	set_init(char *chr, char const *set)
 	i = 0;
 	while (*(set + i) != '\0')
 	{
-		chr[(int) set[i]] = 1;
+		chr[(int)set[i]] = 1;
 		i++;
 	}
 }
@@ -42,14 +42,14 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (0);
 	set_init(chr, set);
 	start = 0;
-	while (chr[(unsigned int) *(s1 + start)])
+	while (chr[(unsigned int)*(s1 + start)])
 		start++;
 	size = 0;
 	while (s1[start + size] != '\0')
 		size++;
-	while (chr[(unsigned int) *(s1 + start + size - 1)] && size > 0)
+	while (chr[(unsigned int)*(s1 + start + size - 1)] && size > 0)
 		size--;
-	str = (char *) malloc(size + 1);
+	str = (char *)malloc(size + 1);
 	if (!str)
 		return (0);
 	ft_strlcpy(str, s1 + start, size + 1);

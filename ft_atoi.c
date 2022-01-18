@@ -12,8 +12,6 @@
 
 #include "libft.h"
 
-int	ft_atoi(const char *str);
-
 static char	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
@@ -58,5 +56,5 @@ int	ft_atoi(const char *str)
 		}
 		i++;
 	}
-	return (buho * (int) integer);
+	return (buho * (int)integer);
 }

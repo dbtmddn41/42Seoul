@@ -6,7 +6,7 @@
 #    By: slyu <slyu@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/10 14:25:00 by slyu              #+#    #+#              #
-#    Updated: 2022/01/11 21:57:46 by slyu             ###   ########.fr        #
+#    Updated: 2022/01/18 14:56:19 by slyu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,6 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: clean all
+re: fclean all
 
 .PHONY: all bonus clean fclean re

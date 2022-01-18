@@ -9,9 +9,10 @@
 /*   Updated: 2022/01/06 03:13:32 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-size_t	ft_strlen(const char	*string)
+size_t	ft_strlen(const char *string)
 {
 	int	i;
 

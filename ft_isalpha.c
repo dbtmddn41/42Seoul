@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/08 08:43:36 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_isalpha(int c);
+#include "libft.h"
 
 int	ft_isalpha(int c)
 {

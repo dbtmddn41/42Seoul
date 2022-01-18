@@ -9,6 +9,7 @@
 /*   Updated: 2022/01/08 17:49:27 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_lstsize(t_list *lst)
@@ -20,9 +21,9 @@ int	ft_lstsize(t_list *lst)
 		return (0);
 	count = 1;
 	curr = lst;
-	while (curr -> next != NULL)
+	while (curr->next != NULL)
 	{
-		curr = curr -> next;
+		curr = curr->next;
 		count++;
 	}
 	return (count);

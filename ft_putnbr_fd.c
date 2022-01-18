@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/07 16:09:11 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd);
+#include "libft.h"
 
 static void	print_num(unsigned int n, int fd)
 {

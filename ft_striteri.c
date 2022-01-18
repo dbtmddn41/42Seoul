@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/10 00:30:08 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+#include "libft.h"
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {

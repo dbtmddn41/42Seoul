@@ -9,6 +9,7 @@
 /*   Updated: 2022/01/09 10:21:12 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
@@ -23,7 +24,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		return ;
 	}
 	curr = *lst;
-	while (curr -> next != NULL)
+	while (curr->next != NULL)
 		curr = curr->next;
-	curr -> next = new;
+	curr->next = new;
 }

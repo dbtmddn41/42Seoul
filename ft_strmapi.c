@@ -9,9 +9,8 @@
 /*   Updated: 2022/01/07 14:37:00 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+#include "libft.h"
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
@@ -24,7 +23,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 		return (0);
 	i = 0;
 	s_len = ft_strlen(s);
-	mapped = (char *) malloc(s_len + 1);
+	mapped = (char *)malloc(s_len + 1);
 	if (!mapped)
 		return (0);
 	while (i < s_len)

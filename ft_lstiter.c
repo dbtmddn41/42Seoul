@@ -9,6 +9,7 @@
 /*   Updated: 2022/01/09 12:13:56 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
@@ -19,6 +20,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 	while (curr != NULL)
 	{
 		f(curr->content);
-		curr = curr -> next;
+		curr = curr->next;
 	}
 }
