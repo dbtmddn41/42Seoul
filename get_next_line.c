@@ -30,13 +30,11 @@ char	*get_next_line(int fd)
 		ft_memset(save[fd], 0, BUFFER_SIZE);
 		fd_check = 0;
 	}
-	if (ft_strnchr(save[fd], '\n', BUFFER_SIZE) != -1 && fd_check)
+	if (fd_check && ft_strnchr(save[fd], '\n', BUFFER_SIZE) != -1)
 		line = next_line_in_save(fd, save);
 	else
 	{
 		buf = malloc(sizeof(t_list));
-		if (!buf)
-			return (0);
 		line = read_next_line(fd, save, &buf);
 	}
 	return (line);
@@ -61,12 +59,14 @@ char	*next_line_in_save(int fd, char **save)
 char	*read_next_line(int fd, char **save, t_list **buf)
 {
 	int		lst_size;
-	int		last_num;
+	int		last;
 	int		flag;
 	char	*line;
 
-	flag = fd2list(fd, buf, &lst_size, &last_num);
-	if ((flag == -1 || (flag == 0 && lst_size == 1 && last_num == 0))
+	if (!buf)
+		return (0);
+	flag = fd2list(fd, *buf, &lst_size, &last);
+	if ((flag == -1 || (flag == 0 && lst_size == 1 && last == 0))
 		&& save[fd][0] == 0)
 	{
 		ft_lstclear(buf);
@@ -74,41 +74,38 @@ char	*read_next_line(int fd, char **save, t_list **buf)
 		save[fd] = 0;
 		return (0);
 	}
-	line = malloc(lst_size * BUFFER_SIZE + last_num + 1);
+	line = malloc(lst_size * BUFFER_SIZE + last + 1);
 	if (!line)
 		return (0);
 	flag = ft_strlcpy(line, save[fd], BUFFER_SIZE);
-	list2line(line + flag, buf, last_num);
-	ft_memmove(save[fd], (*buf)->content + last_num + 1,
-		BUFFER_SIZE - last_num - 1);
-	ft_memset(save[fd] + BUFFER_SIZE - last_num - 1, 0, last_num + 1);
+	list2line(line + flag, buf, last);
+	ft_memmove(save[fd], (*buf)->content + last + 1, BUFFER_SIZE - last - 1);
+	ft_memset(save[fd] + BUFFER_SIZE - last - 1, 0, last + 1);
 	free(*buf);
 	return (line);
 }
 
-int	fd2list(int fd, t_list **buf, int *lst_size, int *last_num)
+int	fd2list(int fd, t_list *buf, int *lst_size, int *last_num)
 {
 	int		read_num;
-	t_list	*curr;
 
 	*lst_size = 0;
-	curr = *buf;
-	while (++(*lst_size) && curr != 0)
+	while (++(*lst_size) && buf != 0)
 	{
-		ft_memset(curr->content, 0, BUFFER_SIZE);
-		read_num = read(fd, curr->content, BUFFER_SIZE);
+		ft_memset(buf->content, 0, BUFFER_SIZE);
+		read_num = read(fd, buf->content, BUFFER_SIZE);
 		if (read_num == -1)
 		{
-			curr->next = NULL;
+			buf->next = NULL;
 			return (-1);
 		}
-		*last_num = ft_strnchr(curr->content, '\n', BUFFER_SIZE);
+		*last_num = ft_strnchr(buf->content, '\n', BUFFER_SIZE);
 		if (read_num < BUFFER_SIZE || *last_num != -1)
 			break ;
-		curr->next = malloc(sizeof(t_list));
-		curr = curr->next;
+		buf->next = malloc(sizeof(t_list));
+		buf = buf->next;
 	}
-	curr->next = NULL;
+	buf->next = NULL;
 	if (read_num < BUFFER_SIZE && *last_num == -1)
 	{
 		*last_num = read_num;

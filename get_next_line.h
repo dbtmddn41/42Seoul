@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <limits.h>
 # define OPEN_MAX 1024
-# define BUFFER_SIZE 1000000
 
 typedef struct s_list
 {
@@ -32,7 +31,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 char	*get_next_line(int fd);
 char	*next_line_in_save(int fd, char **save);
 char	*read_next_line(int fd, char **save, t_list **buf);
-int		fd2list(int fd, t_list **buf, int *lst_size, int *last_num);
+int		fd2list(int fd, t_list *buf, int *lst_size, int *last_num);
 void	list2line(char *line, t_list **buf, int last_num);
 int		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 

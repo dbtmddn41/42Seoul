@@ -5,17 +5,23 @@
 int main()
 {
 	int fd[3];
-	int s;
+	char* s;
 
 	fd[1] = open("./gnlTester/files/41_with_nl", O_RDWR);
 	fd[2] = open("text.txt", O_RDONLY);
 	fd[0] = 0;
-	close(fd[1]);
-	while (1)
+/*	while (1)
 	{
 		scanf("%d", &s);
 		rewind(stdin);
 		if (s <= 3)
 			printf("%s", get_next_line(fd[s]));
+	}*/
+
+	while (s=get_next_line(fd[1]))
+	{
+		printf("%s", s);
+		free(s);
 	}
+	printf("%s", get_next_line(fd[1]));
 }

@@ -19,7 +19,7 @@ int	ft_strnchr(const char *s, char c, int len)
 	i = 0;
 	while (s[i] != '\0' && i < len)
 	{
-		if (s[i] == (char)c)
+		if (s[i] == c)
 			return (i);
 		i++;
 	}
