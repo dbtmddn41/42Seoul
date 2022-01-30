@@ -47,14 +47,14 @@ char	*next_line_in_save(int fd, char **save)
 	int		size;
 	char	*line;
 
-	size = ft_strnchr(save[fd], '\n', BUFFER_SIZE);
+	size = ft_strnchr(save[fd], '\n', BUFFER_SIZE) + 1;
 	line = malloc(size + 1);
 	if (!line)
 		return (0);
 	ft_strlcpy(line, save[fd], size + 1);
 	line[size] = '\0';
-	ft_memmove(save[fd], save[fd] + size + 1, BUFFER_SIZE - size - 1);
-	ft_memset(save[fd] + BUFFER_SIZE - size - 1, 0, size + 1);
+	ft_memmove(save[fd], save[fd] + size, BUFFER_SIZE - size);
+	ft_memset(save[fd] + BUFFER_SIZE - size, 0, size);
 	return (line);
 }
 
@@ -72,7 +72,7 @@ char	*read_next_line(int fd, char **save, t_list **buf)
 		save[fd] = 0;
 		return (0);
 	}
-	line = malloc((lst_size - 1) * BUFFER_SIZE + last_num);
+	line = malloc((lst_size - 1) * BUFFER_SIZE + last_num + 1);
 	if (!line)
 		return (0);
 	flag = ft_strlcpy(line, save[fd], BUFFER_SIZE);
@@ -129,5 +129,5 @@ void	list2line(char *line, t_list **buf, int last_num)
 		line += BUFFER_SIZE;
 	}
 	ft_memmove(line, (*buf)->content, last_num + 1);
-	line[last_num] = '\0';
+	line[last_num + 1] = '\0';
 }
