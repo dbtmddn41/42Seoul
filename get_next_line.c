@@ -98,7 +98,10 @@ int	fd2list(int fd, t_list **buf, int *lst_size, int *last_num)
 		ft_memset(curr->content, 0, BUFFER_SIZE);
 		read_num = read(fd, curr->content, BUFFER_SIZE);
 		if (read_num == -1)
+		{
+			curr->next = NULL;
 			return (-1);
+		}
 		*last_num = ft_strnchr(curr->content, '\n', BUFFER_SIZE);
 		if (read_num < BUFFER_SIZE || *last_num != -1)
 			break ;
