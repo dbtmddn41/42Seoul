@@ -66,8 +66,10 @@ char	*read_next_line(int fd, char **save, t_list **buf)
 	char	*line;
 
 	flag = fd2list(fd, buf, &lst_size, &last_num);
-	if (flag == -1 && save[fd][0] == 0)
+	if ((flag == -1 || (flag == 0 && lst_size == 1 && last_num == 0))
+		&& save[fd][0] == 0)
 	{
+		ft_lstclear(buf);
 		free(save[fd]);
 		save[fd] = 0;
 		return (0);
@@ -96,24 +98,20 @@ int	fd2list(int fd, t_list **buf, int *lst_size, int *last_num)
 		ft_memset(curr->content, 0, BUFFER_SIZE);
 		read_num = read(fd, curr->content, BUFFER_SIZE);
 		if (read_num == -1)
-			break ;
+			return (-1);
 		*last_num = ft_strnchr(curr->content, '\n', BUFFER_SIZE);
 		if (read_num < BUFFER_SIZE || *last_num != -1)
-		{
-			curr->next = NULL;
-			if (read_num < BUFFER_SIZE && *last_num == -1)
-			{
-				*last_num = read_num;
-				if (*lst_size == 1 && *last_num == 0)
-					break ;
-			}
-			return (1);
-		}
+			break ;
 		curr->next = malloc(sizeof(t_list));
 		curr = curr->next;
 	}
-	ft_lstclear(buf);
-	return (-1);
+	curr->next = NULL;
+	if (read_num < BUFFER_SIZE && *last_num == -1)
+	{
+		*last_num = read_num;
+		return (0);
+	}
+	return (1);
 }
 
 void	list2line(char *line, t_list **buf, int last_num)

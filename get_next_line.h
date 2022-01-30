@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# define OPEN_MAX 1024
+# define BUFFER_SIZE 1000000
 
 typedef struct s_list
 {
