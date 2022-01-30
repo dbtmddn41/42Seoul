@@ -72,7 +72,7 @@ char	*read_next_line(int fd, char **save, t_list **buf)
 		save[fd] = 0;
 		return (0);
 	}
-	line = malloc((lst_size - 1) * BUFFER_SIZE + last_num + 1);
+	line = malloc(lst_size * BUFFER_SIZE + last_num + 1);
 	if (!line)
 		return (0);
 	flag = ft_strlcpy(line, save[fd], BUFFER_SIZE);
