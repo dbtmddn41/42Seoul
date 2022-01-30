@@ -19,6 +19,8 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			fd_check;
 
+	if (fd < 0 || fd > OPEN_MAX)
+		return (0);
 	fd_check = 1;
 	if (!save[fd])
 	{
@@ -45,8 +47,6 @@ char	*next_line_in_save(int fd, char **save)
 	int		size;
 	char	*line;
 
-	if (fd < 0 || fd > OPEN_MAX)
-		return (0);
 	size = ft_strnchr(save[fd], '\n', BUFFER_SIZE);
 	line = malloc(size + 1);
 	if (!line)
@@ -66,7 +66,7 @@ char	*read_next_line(int fd, char **save, t_list **buf)
 	char	*line;
 
 	flag = fd2list(fd, buf, &lst_size, &last_num);
-	if ((flag == -1 || (lst_size == 1 && last_num == 0)) && save[fd][0] == 0)
+	if (flag == -1 && save[fd][0] == 0)
 	{
 		free(save[fd]);
 		save[fd] = 0;
@@ -79,6 +79,7 @@ char	*read_next_line(int fd, char **save, t_list **buf)
 	list2line(line + flag, buf, last_num);
 	ft_memmove(save[fd], (*buf)->content + last_num + 1,
 		BUFFER_SIZE - last_num - 1);
+	ft_memset(save[fd] + BUFFER_SIZE - last_num - 1, 0, last_num + 1);
 	free(*buf);
 	return (line);
 }
@@ -101,7 +102,11 @@ int	fd2list(int fd, t_list **buf, int *lst_size, int *last_num)
 		{
 			curr->next = NULL;
 			if (read_num < BUFFER_SIZE && *last_num == -1)
+			{
 				*last_num = read_num;
+				if (*lst_size == 1 && *last_num == 0)
+					break ;
+			}
 			return (1);
 		}
 		curr->next = malloc(sizeof(t_list));
@@ -123,6 +128,6 @@ void	list2line(char *line, t_list **buf, int last_num)
 		*buf = temp;
 		line += BUFFER_SIZE;
 	}
-	ft_memmove(line, (*buf)->content, last_num);
+	ft_memmove(line, (*buf)->content, last_num + 1);
 	line[last_num] = '\0';
 }
