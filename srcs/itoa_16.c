@@ -38,6 +38,8 @@ char	*ft_itoa_x(unsigned int n)
 	if (n == 0)
 		return (ft_strdup("0"));
 	num_str = malloc(sizeof(unsigned int) * 2 + 1);
+	if (!num_str)
+		return (0);
 	make_numstr_16(n, num_str);
 	ft_rev_tab(num_str, ft_strlen(num_str));
 	return (num_str);
@@ -50,6 +52,8 @@ char	*ft_itoa_p(unsigned long addr)
 	if (addr == 0)
 		return (ft_strdup("0"));
 	addr_str = malloc(sizeof(void *) * 2 + 1);
+	if (!addr_str)
+		return (0);
 	make_addrstr(addr, addr_str);
 	ft_rev_tab(addr_str, ft_strlen(addr_str));
 	return (addr_str);

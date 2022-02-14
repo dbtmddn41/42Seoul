@@ -23,13 +23,8 @@ int	print_u(va_list ap, t_partial *part)
 	num = va_arg(ap, unsigned int);
 	num_str = ft_itoa_unsigned(num);
 	if (!num_str)
-		return (0);
-	s_len = ft_strlen(num_str);
-	if (part->width[1] > s_len)
-		fill_precision(part->width[1], &num_str, s_len);
-	else if (part->width[1] == 0 && num == 0)
-		num_str[0] = '\0';
-	s_len = ft_strlen(num_str);
+		return (-1);
+	s_len = precision(part, &num_str, num);
 	if (part->width[0] < s_len)
 		part->width[0] = s_len;
 	c_str = set_cstr(part->width[0], part->flag[zero]);
