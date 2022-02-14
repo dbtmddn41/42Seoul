@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flags_bonus.c                                      :+:      :+:    :+:   */
+/*   flags.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slyu <slyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 04:06:16 by slyu              #+#    #+#             */
-/*   Updated: 2022/02/14 18:53:33 by slyu             ###   ########.fr       */
+/*   Updated: 2022/02/06 04:06:20 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-void	flag_set(int *i, t_partial *part, const char *fstr, int wid_pre)
+int	flag_set(int *i, t_partial *part, const char *fstr, int wid_pre)
 {
 	int		j;
 	char	*num;
+	int		n;
 
 	if (wid_pre == 1)
 		(*i)++;
@@ -23,11 +24,18 @@ void	flag_set(int *i, t_partial *part, const char *fstr, int wid_pre)
 	while (ft_isdigit(fstr[*i + j]))
 		j++;
 	num = malloc(j + 1);
+	if (!num)
+		return (-1);
 	ft_memcpy(num, fstr + *i, j);
 	num[j] = '\0';
-	part->width[wid_pre] = ft_atoi(num);
-	*i += j - 1;
+	n = ft_atoi(num);
 	free(num);
+	if (n < 0)
+		return (-1);
+	else
+		part->width[wid_pre] = n;
+	*i += j - 1;
+	return (1);
 }
 
 int	istype(char c)
@@ -70,4 +78,12 @@ void	fill_precision(int precision, char **num_str, int s_len)
 	ft_memcpy(new_str + precision - s_len, *num_str, s_len);
 	free(*num_str);
 	*num_str = new_str;
+}
+
+char	*str_arg(char *s)
+{
+	if (s)
+		return (ft_strdup(s));
+	else
+		return (ft_strdup("(null)"));
 }

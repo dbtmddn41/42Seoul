@@ -66,12 +66,12 @@ int	print_s(va_list ap, t_partial *part)
 	char	*c_str;
 	int		s_len;
 
-	s = va_arg(ap, char *);
-	if (s)
-		s = ft_strdup(s);
-	else
-		s = ft_strdup("(null)");
+	s = str_arg(va_arg(ap, char *));
+	if (!s)
+		return (-1);
 	s_len = ft_strlen(s);
+	if (s_len < 0)
+		return (-1);
 	if (part-> width[1] != -1 && part->width[1] < s_len)
 		s[part->width[1]] = '\0';
 	s_len = ft_strlen(s);
@@ -79,7 +79,10 @@ int	print_s(va_list ap, t_partial *part)
 		part->width[0] = s_len;
 	c_str = set_cstr(part->width[0], part->flag[zero]);
 	if (!c_str)
+	{
+		free(s);
 		return (-1);
+	}
 	i = print_cstr(c_str, s, s_len, part);
 	free_all(2, c_str, s);
 	return (i);

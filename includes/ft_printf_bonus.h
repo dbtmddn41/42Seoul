@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slyu <slyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:27:10 by slyu              #+#    #+#             */
-/*   Updated: 2022/02/14 18:50:38 by slyu             ###   ########.fr       */
+/*   Updated: 2022/02/01 16:27:12 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		ft_printf(const char *fstr, ...);
 int		cut_str(const char *fstr, t_partial **part);
 int		split_str(t_partial *part, const char *fstr);
 int		format_fstr(t_partial *part, const char *fstr);
-void	flag_set(int *i, t_partial *part, const char *fstr, int flag);
+int		flag_set(int *i, t_partial *part, const char *fstr, int flag);
 int		istype(char c);
 int		check_flag(int *i, t_partial *part, const char *fstr);
 int		write_fstr(va_list ap, t_partial *part);
@@ -80,5 +80,6 @@ void	capitalize(char *s);
 int		print_format(va_list ap, t_partial *part);
 int		ft_putmem(char *s, unsigned int size);
 int		precision(t_partial *part, char **s, unsigned long n);
+char	*str_arg(char *s);
 
 #endif

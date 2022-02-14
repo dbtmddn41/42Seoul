@@ -68,6 +68,8 @@ int	split_str(t_partial *part, const char *fstr)
 		i = format_fstr(part, fstr + 1);
 	else
 		i = ft_strnchr(fstr, '%');
+	if (i == -1)
+		return (-1);
 	part->str = malloc(i + 1);
 	if (!part->str)
 		return (-1);
@@ -79,13 +81,17 @@ int	split_str(t_partial *part, const char *fstr)
 int	format_fstr(t_partial *part, const char *fstr)
 {
 	int	i;
+	int	check;
 
 	i = 0;
 	part->width[1] = -1;
 	while (1)
 	{
-		if (!check_flag(&i, part, fstr))
+		check = check_flag(&i, part, fstr);
+		if (check == 0)
 			break ;
+		else if (check == -1)
+			return (-1);
 		i++;
 	}
 	if (istype(fstr[i]))
@@ -95,6 +101,6 @@ int	format_fstr(t_partial *part, const char *fstr)
 			part->flag[zero] = 0;
 	}
 	else
-		part->isformat = 0;
+		part->isformat = -1;
 	return (i + 2);
 }
