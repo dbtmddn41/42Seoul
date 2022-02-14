@@ -14,8 +14,8 @@
 
 char	*ft_strdup(const char *s1)
 {
-	int		str_len;
-	char	*str;
+	unsigned int	str_len;
+	char			*str;
 
 	str_len = 0;
 	while (*(s1 + str_len) != '\0')
