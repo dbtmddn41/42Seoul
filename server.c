@@ -44,9 +44,8 @@ void	waiting_handler(int sign, siginfo_t *info, void *context)
 	}
 	(void) context;
 	g_clientinfo->client_pid = info->si_pid;
-	g_clientinfo->buffer_index = 0;
 	g_clientinfo->error_flag = 0;
-	kill(SIGUSR1, g_clientinfo->client_pid);
+	kill(g_clientinfo->client_pid, SIGUSR1);
 	ft_printf("conneted to PID: %d\n", g_clientinfo->client_pid);
 	set_signal(SIGUSR1, recieve_handler);
 	set_signal(SIGUSR2, recieve_handler);
@@ -54,11 +53,7 @@ void	waiting_handler(int sign, siginfo_t *info, void *context)
 
 void	recieve_handler(int sign, siginfo_t *info, void *context)
 {
-	if (g_clientinfo->client_pid != info->si_pid)
-	{
-		error_handler("other client inturrupted");
-		return ;
-	}
+	(void) info;
 	(void) context;
 	g_clientinfo->buf[g_clientinfo->buffer_index] <<= 1;
 	if (sign == SIGUSR1)
@@ -68,6 +63,19 @@ void	recieve_handler(int sign, siginfo_t *info, void *context)
 	kill(g_clientinfo->client_pid, SIGUSR1);
 }
 
+void print_buf(char buf)
+{
+	int i;
+	int sig;
+	i = 8;
+	while (--i >= 0)
+	{
+		sig = (buf >> i) & 1;
+		ft_printf("%d", sig);
+	}
+	ft_printf("\n");
+}
+
 void	recieve_msg(void)
 {
 	int		i;
@@ -75,24 +83,27 @@ void	recieve_msg(void)
 	i = 0;
 	while (1)
 	{
+		g_clientinfo->buffer_index = 0;
 		while (g_clientinfo->buffer_index < BUFFER_SIZE)
 		{
 			pause();
 			if (g_clientinfo->error_flag)
 				return ;
 			i++;
-			if (i >= 7)
+			print_buf(g_clientinfo->buf[g_clientinfo->buffer_index]);
+			if (i >= 8)
 			{
 				if (g_clientinfo->buf[g_clientinfo->buffer_index] == '\0')
 					break ;
-				(g_clientinfo->buffer_index)++;
+				g_clientinfo->buffer_index++;
 				i = 0;
 			}
 		}
-		write(1, g_clientinfo->buf, g_clientinfo->buffer_index + 1);
+		write(1, g_clientinfo->buf, g_clientinfo->buffer_index);
 		if (g_clientinfo->buf[g_clientinfo->buffer_index] == '\0')
 			break ;
 	}
+	write(1, "\n", 1);
 }
 
 void	error_handler(char *msg)

@@ -21,7 +21,7 @@ int	main(int argc, char *argv[])
 		ft_putendl_fd("Usage: ./client <server PID> <string>", 2);
 		return (0);
 	}
-	ft_printf("my PID: %d", getpid());
+	ft_printf("my PID: %d\n", getpid());
 	g_serverinfo.server_pid = ft_atoi(argv[1]);
 	g_serverinfo.acknowledge = 0;
 	set_signal(SIGUSR1, sig_handler);
@@ -31,14 +31,12 @@ int	main(int argc, char *argv[])
 
 void	sig_handler(int sign, siginfo_t *info, void *context)
 {
-	ft_printf("I got sigNO.%d", sign);
 	if (sign != SIGUSR1)
 	{
 		error_handler("Invalid signal");
 	}
+	(void) info;
 	(void) context;
-	if (info->si_pid != g_serverinfo.server_pid)
-		error_handler("server changed");
 	g_serverinfo.acknowledge = 1;
 }
 
@@ -46,6 +44,7 @@ void	knock(pid_t server_pid)
 {
 	kill(server_pid, SIGUSR1);
 	pause();//usleep(WAIT_TIME);
+	sleep(1);
 	if (!g_serverinfo.acknowledge)
 		error_handler("connection failed");
 	else
@@ -67,18 +66,23 @@ void	send_msg(char *msg)
 		{
 			sig = (*msg >> i) & 1;
 			if (sig == 0)
-				kill(SIGUSR1, server_id);
+				kill(server_id, SIGUSR1);
 			else
-				kill(SIGUSR2, server_id);
-			usleep(WAIT_TIME);
+				kill(server_id, SIGUSR2);
+			pause();
+			sleep(1);
 			if (!g_serverinfo.acknowledge)
 				error_handler("no confirm from server.");
 			g_serverinfo.acknowledge = 0;
 		}
 		msg++;
 	}
-	while (i++ < 8)
-		kill(SIGUSR1, server_id);
+	while (i++ < 7)
+	{
+		kill(server_id, SIGUSR1);
+		pause();
+		sleep(1);
+	}
 	ft_putstr("Transmission complete\n");
 }
 

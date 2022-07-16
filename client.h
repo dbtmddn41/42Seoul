@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include "./ft_printf/includes/ft_printf.h"
-# define WAIT_TIME 100
+# define WAIT_TIME 1000
 
 typedef struct s_server
 {
