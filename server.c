@@ -12,14 +12,14 @@
 
 #include "server.h"
 
-t_client	*g_clientinfo;
+t_client	*g_clninfo;
 
 int	main(void)
 {
 	pid_t				my_pid;
 
-	g_clientinfo = malloc(sizeof(t_client));
-	if (!g_clientinfo)
+	g_clninfo = malloc(sizeof(t_client));
+	if (!g_clninfo)
 	{
 		ft_putendl_fd("malloc error", 2);
 		return (0);
@@ -31,8 +31,9 @@ int	main(void)
 		set_signal(SIGUSR1, waiting_handler);
 		pause();
 		recieve_msg();
+		write(1, "\n", 1);
 	}
-	free(g_clientinfo);
+	free(g_clninfo);
 }
 
 void	waiting_handler(int sign, siginfo_t *info, void *context)
@@ -43,72 +44,74 @@ void	waiting_handler(int sign, siginfo_t *info, void *context)
 		return ;
 	}
 	(void) context;
-	g_clientinfo->client_pid = info->si_pid;
-	g_clientinfo->error_flag = 0;
-	kill(g_clientinfo->client_pid, SIGUSR1);
-	ft_printf("conneted to PID: %d\n", g_clientinfo->client_pid);
+	g_clninfo->client_pid = info->si_pid;
+	g_clninfo->error_flag = 0;
+	ft_printf("conneted to PID: %d\n", g_clninfo->client_pid);
 	set_signal(SIGUSR1, recieve_handler);
 	set_signal(SIGUSR2, recieve_handler);
 }
 
 void	recieve_handler(int sign, siginfo_t *info, void *context)
 {
+	if (info->si_pid != g_clninfo->client_pid && info->si_pid != 0)
+	{
+		error_handler_s("other client interruped", &(g_clninfo->error_flag));
+		return ;
+	}
 	(void) info;
 	(void) context;
-	g_clientinfo->buf[g_clientinfo->buffer_index] <<= 1;
+	g_clninfo->recieve_flag = 1;
+	g_clninfo->buf[g_clninfo->buf_idx] <<= 1;
 	if (sign == SIGUSR1)
-		g_clientinfo->buf[g_clientinfo->buffer_index] &= 0xfe;
+		g_clninfo->buf[g_clninfo->buf_idx] &= 0xfe;
 	else if (sign == SIGUSR2)
-		g_clientinfo->buf[g_clientinfo->buffer_index] |= 0x1;
-	kill(g_clientinfo->client_pid, SIGUSR1);
-}
-
-void print_buf(char buf)
-{
-	int i;
-	int sig;
-	i = 8;
-	while (--i >= 0)
-	{
-		sig = (buf >> i) & 1;
-		ft_printf("%d", sig);
-	}
-	ft_printf("\n");
+		g_clninfo->buf[g_clninfo->buf_idx] |= 0x1;
 }
 
 void	recieve_msg(void)
 {
 	int		i;
+	char	*buf;
+	int		res;
+	pid_t	cid;
 
+	cid = g_clninfo->client_pid;
+	buf = g_clninfo->buf;
 	i = 0;
 	while (1)
 	{
-		g_clientinfo->buffer_index = 0;
-		while (g_clientinfo->buffer_index < BUFFER_SIZE)
-		{
-			pause();
-			if (g_clientinfo->error_flag)
-				return ;
-			i++;
-			print_buf(g_clientinfo->buf[g_clientinfo->buffer_index]);
-			if (i >= 8)
-			{
-				if (g_clientinfo->buf[g_clientinfo->buffer_index] == '\0')
-					break ;
-				g_clientinfo->buffer_index++;
-				i = 0;
-			}
-		}
-		write(1, g_clientinfo->buf, g_clientinfo->buffer_index);
-		if (g_clientinfo->buf[g_clientinfo->buffer_index] == '\0')
+		g_clninfo->buf_idx = 0;
+		res = recieving_proc(cid, buf);
+		if (res == -1)
+			return ;
+		write(1, buf, g_clninfo->buf_idx);
+		if (buf[g_clninfo->buf_idx] == '\0' && g_clninfo->buf_idx < BUFFER_SIZE)
 			break ;
 	}
-	write(1, "\n", 1);
 }
 
-void	error_handler(char *msg)
+int	recieving_proc(pid_t cid, char *buf)
 {
-	ft_putstr_fd("ERROR: ", 2);
-	ft_putendl_fd(msg, 2);
-	g_clientinfo->error_flag = 1;
+	int	res;
+	int	i;
+
+	i = 0;
+	while (g_clninfo->buf_idx < BUFFER_SIZE)
+	{
+		res = send_signal(SIGUSR1, cid, &(g_clninfo->recieve_flag));
+		if (res == -1)
+			error_handler_s("no signal from client", &(g_clninfo->error_flag));
+		if (g_clninfo->error_flag)
+			return (-1);
+		i++;
+		if (i >= 8)
+		{
+			if (buf[g_clninfo->buf_idx] == '\0')
+				return (0);
+			g_clninfo->buf_idx++;
+			i = 0;
+		}
+	}
+	return (0);
 }
+

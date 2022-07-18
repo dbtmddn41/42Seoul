@@ -27,68 +27,67 @@ int	main(int argc, char *argv[])
 	set_signal(SIGUSR1, sig_handler);
 	knock(g_serverinfo.server_pid);
 	send_msg(argv[2]);
+	ft_putstr("Transmission complete\n");
 }
 
 void	sig_handler(int sign, siginfo_t *info, void *context)
-{
-	if (sign != SIGUSR1)
-	{
-		error_handler("Invalid signal");
-	}
-	(void) info;
+{	
+	if (info->si_pid != g_serverinfo.server_pid && info->si_pid != 0)
+		error_handler_c("This is not server.");
+	(void) sign;
 	(void) context;
 	g_serverinfo.acknowledge = 1;
 }
 
 void	knock(pid_t server_pid)
 {
-	kill(server_pid, SIGUSR1);
-	pause();//usleep(WAIT_TIME);
-	sleep(1);
-	if (!g_serverinfo.acknowledge)
-		error_handler("connection failed");
-	else
-		ft_putstr("connection SUCCESS\n");
-	g_serverinfo.acknowledge = 0;
+	int	res;
+
+	res = send_signal(SIGUSR1, server_pid, &g_serverinfo.acknowledge);
+	if (res == -1)
+		error_handler_c("connection FAIL");
+	ft_putstr("connection SUCCESS\n");
 }
 
 void	send_msg(char *msg)
 {
 	int		i;
 	int		sig;
-	pid_t	server_id;
+	int		res;
+	pid_t	sid;
 
-	server_id = g_serverinfo.server_pid;
+	sid = g_serverinfo.server_pid;
 	while (*msg != '\0')
 	{
-		i = 8;
-		while (--i >= 0)
+		i = 7;
+		while (i >= 0)
 		{
 			sig = (*msg >> i) & 1;
 			if (sig == 0)
-				kill(server_id, SIGUSR1);
+				res = send_signal(SIGUSR1, sid, &g_serverinfo.acknowledge);
 			else
-				kill(server_id, SIGUSR2);
-			pause();
-			sleep(1);
-			if (!g_serverinfo.acknowledge)
-				error_handler("no confirm from server.");
-			g_serverinfo.acknowledge = 0;
+				res = send_signal(SIGUSR2, sid, &g_serverinfo.acknowledge);
+			if (res == -1)
+				error_handler_c("no response from server");
+			i--;
 		}
 		msg++;
 	}
-	while (i++ < 7)
-	{
-		kill(server_id, SIGUSR1);
-		pause();
-		sleep(1);
-	}
-	ft_putstr("Transmission complete\n");
+	send_null(sid);
 }
 
-void	error_handler(char *msg)
+void	send_null(pid_t sid)
 {
-	ft_putstr_fd("ERROR: ", 2);
-	ft_putendl_fd(msg, 2);
-	exit(-1);
+	int	i;
+	int	res;
+
+	i = 0;
+	while (i < 7)
+	{	
+		res = send_signal(SIGUSR1, sid, &g_serverinfo.acknowledge);
+		if (res == -1)
+			error_handler_c("no response from server");
+		i++;
+	}
+	kill(sid, SIGUSR1);
 }

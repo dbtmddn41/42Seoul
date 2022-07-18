@@ -27,6 +27,9 @@ CLIENT_SRCS = \
 ./client.c \
 ./common.c
 
+SERVER_INC = ./server.h
+CLIENT_INC = ./client.h
+
 SERVER_OBJS = $(SERVER_SRCS:.c=.o)
 CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
 
@@ -35,11 +38,11 @@ all: $(LIB) $(SERVER) $(CLIENT)
 $(LIB):
 	make -C $(LIB_DIR)
 
-$(SERVER): $(SERVER_OBJS)
-	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
+$(SERVER): $(SERVER_OBJS) $(SERVER_INC)
+	$(CC) $(FLAGS) -o $@ $(SERVER_OBJS) $(LIB_DIR)/lib$(LIB).a
 
-$(CLIENT): $(CLIENT_OBJS)
-	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
+$(CLIENT): $(CLIENT_OBJS) $(CLIENT_INC)
+	$(CC) $(FLAGS) -o $@ $(CLIENT_OBJS) $(LIB_DIR)/lib$(LIB).a
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o ${<:.c=.o} $(INCLUDE)
