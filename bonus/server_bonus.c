@@ -114,4 +114,3 @@ int	recieving_proc(pid_t cid, char *buf)
 	}
 	return (0);
 }
-
