@@ -11,45 +11,61 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -c -g
+CFLAGS = -Wall -Wextra -Werror -c
 FLAGS = -Wall -Wextra -Werror
 SERVER = server
 CLIENT = client
 LIB_DIR = ./ft_printf
 LIB = ftprintf
-INCLUDE = -I$(LIB_DIR)
+INCLUDE = -I$(LIB_DIR) -I./includes
 
 SERVER_SRCS = \
-./server.c \
-./common.c
+./srcs/server.c \
+./srcs/common.c
 
 CLIENT_SRCS = \
-./client.c \
-./common.c
+./srcs/client.c \
+./srcs/common.c
 
-SERVER_INC = ./server.h
-CLIENT_INC = ./client.h
+SERVER_INC = ./includes/server.h
+CLIENT_INC = ./includes/client.h
 
-SERVER_OBJS = $(SERVER_SRCS:.c=.o)
-CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
+SERVER_SRCS_BONUS = \
+./bonus/server_bonus.c \
+./bonus/common_bonus.c
+
+CLIENT_SRCS_BONUS = \
+./bonus/client_bonus.c \
+./bonus/common_bonus.c
+
+ifdef BONUS_FLAG
+	SERVER_OBJS = $(SERVER_SRCS_BONUS:.c=.o)
+	CLIENT_OBJS = $(CLIENT_SRCS_BONUS:.c=.o)
+else
+	SERVER_OBJS = $(SERVER_SRCS:.c=.o)
+	CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
+endif
 
 all: $(LIB) $(SERVER) $(CLIENT)
 
 $(LIB):
 	make -C $(LIB_DIR)
 
-$(SERVER): $(SERVER_OBJS) $(SERVER_INC)
-	$(CC) $(FLAGS) -o $@ $(SERVER_OBJS) $(LIB_DIR)/lib$(LIB).a
+$(SERVER): $(SERVER_OBJS)
+	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
 
-$(CLIENT): $(CLIENT_OBJS) $(CLIENT_INC)
-	$(CC) $(FLAGS) -o $@ $(CLIENT_OBJS) $(LIB_DIR)/lib$(LIB).a
+$(CLIENT): $(CLIENT_OBJS)
+	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
+
+bonus:
+	make BONUS_FLAG=1 all
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o ${<:.c=.o} $(INCLUDE)
 
 clean:
 	make clean -C $(LIB_DIR)
-	rm -f $(CLIENT_OBJS) $(SERVER_OBJS)
+	rm -f $(SERVER_SRCS_BONUS:.c=.o) $(CLIENT_SRCS_BONUS:.c=.o) $(SERVER_SRCS:.c=.o) $(CLIENT_SRCS:.c=.o)
 
 fclean:
 	make clean
@@ -57,4 +73,4 @@ fclean:
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

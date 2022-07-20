@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <signal.h>
-#include "./ft_printf/includes/ft_printf.h"
+#include "../ft_printf/includes/ft_printf.h"
 
 void	set_signal(int sig, void *handler_func)
 {

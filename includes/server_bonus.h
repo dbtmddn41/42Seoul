@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   server_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slyu <slyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 16:14:18 by slyu              #+#    #+#             */
-/*   Updated: 2022/07/16 16:14:20 by slyu             ###   ########.fr       */
+/*   Updated: 2022/07/20 12:07:59 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#ifndef SERVER_BONUS_H
+# define SERVER_BONUS_H
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
-# include "./ft_printf/includes/ft_printf.h"
+# include "../ft_printf/includes/ft_printf.h"
 # define BUFFER_SIZE 1000
 
 typedef struct s_client
