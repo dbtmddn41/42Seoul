@@ -47,28 +47,27 @@ int	pattern_process(int **dir, int steps)
 		if (!dir[i])
 			return (-1);
 		j = 0;
+		while (j < tri_num / 6 + 1)
+		{
+			dir[i][j] = dir[i - 1][tri_num / 6 + j] / 3;
+			dir[i][j + tri_num / 2] = dir[i - 1][tri_num / 6 + j] / 3;
+			j++;
+		}
 		while (j < tri_num / 3)
 		{
-			dir[i][j] = dir[i - 1][j] / 3;
-			dir[i][j] += dir[i - 1][j] % 3;
+			dir[i][j] = dir[i - 1][j - tri_num / 6 - 1] / 3;
+			dir[i][j + tri_num / 2] = dir[i - 1][j - tri_num / 6 - 1] / 3;
 			j++;
 		}
-		while (j < tri_num / 9 * 4)
+		while (j < tri / 2)
 		{
-			dir[i][j] = dir[i - 1][tri_num / 3 * 2 - 1 - j] / 3;
-			ft_abs(dir[i] + j);
-			if (dir[i - 1][j - tri_num / 9] < 0)
-				dir[i][j] *= -1;
+			dir[i][j] = dir[i][j - tri_num / 2] / 3;
 			j++;
 		}
-		while (j < tri_num / 3 * 2)
-		{
-			dir[i][j] = (-1) * (dir[i - 1][tri_num / 3 * 2 - 1 - j] / 3);
-			j++;
-		}
+		j = tri_num / 2 + tri_num / 3 + 1;
 		while (j < tri_num)
 		{
-			dir[i][j] = dir[i - 1][j - tri_num / 3 * 2] / 3;
+			dir[i][j] = (-1) * (dir[i][tri_num + tri_num / 6 - 1 - j]);
 			j++;
 		}
 		i++;
