@@ -15,7 +15,7 @@
 t_dnode	*create_node(int data, t_dnode *prev, t_dnode *next)
 {
 	t_dnode	*new_node;
-
+	
 	new_node = malloc(sizeof(t_dnode));
 	if (!new_node)
 		return (0);
@@ -34,7 +34,7 @@ int	dqadd_front(t_deque *deque, int data)
 		return (-1);
 	ex_front = deque->front;
 	new_node = create_node(data, NULL, ex_front);
-	if (!new_node)
+	if (!new_node)	
 		return (-1);
 	if (ex_front)
 		ex_front->prev = new_node;
@@ -47,7 +47,7 @@ int	dqadd_front(t_deque *deque, int data)
 	return (0);
 }
 
-int	dqadd_rear(t_deque *deque, int data)
+int	dqadd_front(t_deque *deque, int data)
 {
 	t_dnode	*new_node;
 	t_dnode	*ex_rear;
@@ -55,8 +55,8 @@ int	dqadd_rear(t_deque *deque, int data)
 	if (!deque)
 		return (-1);
 	ex_rear = deque->rear;
-	new_node = create_node(data, ex_rear, NULL);
-	if (!new_node)
+	new_node = create_node(data, NULL, ex_rear);
+	if (!new_node)	
 		return (-1);
 	if (ex_rear)
 		ex_rear->next = new_node;

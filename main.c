@@ -24,5 +24,5 @@ int	main(int argc, char *argv[])
 		//무결성 검증
 		dqadd_back(&a, ft_atoi(argv[i]));
 	}
-	calc_pattern(i);
+	devide()
 }
