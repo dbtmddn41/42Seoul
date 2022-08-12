@@ -16,14 +16,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct	s_deque_node
+typedef struct s_deque_node
 {
 	int					data;
 	struct s_deque_node	*prev;
 	struct s_deque_node	*next;
 }t_dnode;
 
-typedef struct	s_deque
+typedef struct s_deque
 {
 	t_dnode	*front;
 	t_dnode	*rear;
@@ -34,5 +34,10 @@ int		dqadd_front(t_deque *deque, int data);
 int		dqadd_back(t_deque *deque, int data);
 int		dqdel_front(t_deque *deque);
 int		dqdel_back(t_deque *deque);
-
+int		log_int(int n, int x);
+int		ft_pow(int n, int x);
+int		**calc_pattern(int n);
+int		pattern_process(int **dir, int steps);
+void	delete_all(int **to_del);
+void	ft_abs(int *a);
 #endif
