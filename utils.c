@@ -22,7 +22,7 @@ int	log_int(int n, int x)
 	while (1)
 	{
 		m *= n;
-		if (m > INT32_MAX)
+		if (m > __INT32_MAX__)
 			return (-1);
 		else if (x < m)
 		return (cnt);
@@ -40,7 +40,7 @@ int	ft_pow(int n, int x)
 	while (i < x)
 	{
 		res *= n;
-		if (res > INT32_MAX)
+		if (res > __INT32_MAX__)
 			return (0);
 		i++;
 	}

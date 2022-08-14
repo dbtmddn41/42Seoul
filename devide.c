@@ -18,7 +18,7 @@ int	**calc_pattern(int n)
 	int	steps;
 	int	res;
 
-	steps = log_int(3, n / 2) + 1;
+	steps = log_int(3, n / 3) + 1;
 	dir = (int **)malloc(sizeof(int *) * (steps + 1));
 	if (!dir)
 		return (0);
@@ -50,25 +50,19 @@ int	pattern_process(int **dir, int steps)
 		while (j < tri_num / 3)
 		{
 			dir[i][j] = dir[i - 1][j] / 3;
-			dir[i][j] += dir[i - 1][j] % 3;
+			dir[i][j + tri_num / 3 * 2] = dir[i - 1][j] / 3;
 			j++;
 		}
 		while (j < tri_num / 9 * 4)
 		{
 			dir[i][j] = dir[i - 1][tri_num / 3 * 2 - 1 - j] / 3;
-			ft_abs(dir[i] + j);
-			if (dir[i - 1][j - tri_num / 9] < 0)
-				dir[i][j] *= -1;
+			dir[i][j] += dir[i - 1][tri_num / 3 * 2 - 1 - j] % 3;
 			j++;
 		}
 		while (j < tri_num / 3 * 2)
 		{
 			dir[i][j] = (-1) * (dir[i - 1][tri_num / 3 * 2 - 1 - j] / 3);
-			j++;
-		}
-		while (j < tri_num)
-		{
-			dir[i][j] = dir[i - 1][j - tri_num / 3 * 2] / 3;
+			dir[i][j] -= dir[i - 1][tri_num / 3 * 2 - 1 - j] % 3;
 			j++;
 		}
 		i++;
