@@ -47,18 +47,10 @@ int	ft_pow(int n, int x)
 	return ((int)res);
 }
 
-void	delete_all(int **to_del)
-{
-	while (*to_del != 0)
-	{
-		free(*to_del);
-		(*to_del)++;
-	}
-	free(to_del);
-}
 
-void	ft_abs(int *a)
+int	ft_abs(int a)
 {
-	if (*a < 0)
-		*a *= -1;
+	if (a < 0)
+		a *= -1;
+	return (a);
 }

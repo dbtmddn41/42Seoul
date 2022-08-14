@@ -24,5 +24,18 @@ int	main(int argc, char *argv[])
 		//무결성 검증
 		dqadd_back(&a, ft_atoi(argv[i]));
 	}
-	calc_pattern(i);
+	push_swap(&a, &b, --i);
+	delete_dq(&a);
+	delete_dq(&b);
+}
+
+void	push_swap(t_deque *a, t_deque *b, int n)
+{
+	int		**pattern;
+	int		steps;
+
+	steps = log_int(3, n / 3) + 1;
+	pattern = calc_pattern(n, steps);
+	devide(a, b, pattern, n);
+	merge(a, b, pattern, n);
 }

@@ -81,6 +81,7 @@ int	dqdel_front(t_deque *deque)
 		deque->rear = NULL;
 	else
 		deque->front->prev = NULL;
+	ex_front->next = NULL;
 	free(ex_front);
 	return (data);
 }
@@ -97,6 +98,7 @@ int	dqdel_back(t_deque *deque)
 		deque->front = NULL;
 	else
 		deque->rear->next = NULL;
+	ex_rear->prev = NULL;
 	free(ex_rear);
 	return (data);
 }

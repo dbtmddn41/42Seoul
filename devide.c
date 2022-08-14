@@ -12,60 +12,111 @@
 
 #include "push_swap.h"
 
-int	**calc_pattern(int n)
+void	devide(t_deque *a, t_deque *b, int **pattern, int n)
 {
-	int	**dir;
-	int	steps;
-	int	res;
-
+	int		small_num;
+	int		steps;
+	int		i;
+	t_deque	*to;
+	t_deque *from;
+	
 	steps = log_int(3, n / 3) + 1;
-	dir = (int **)malloc(sizeof(int *) * (steps + 1));
-	if (!dir)
-		return (0);
-	dir[0] = malloc(1);
-	dir[0][0] = n;
-	res = pattern_process(dir, steps);
-	if (res == -1)
+	small_num = calc_small(pattern, steps);
+	if (steps % 2 == 0)
 	{
-		delete_all(dir);
-		return(0);
+		to = a;
+		from = b;
+		i = small_num;
 	}
-	return (dir);
+	else
+	{
+		to = b;
+		from = a;
+		i = n - small_num;
+	}
+	while (i > 0)
+	{
+		push(b, a, 0);
+		i--;
+	}
+	devide_process(to, from, pattern, steps);
 }
 
-int	pattern_process(int **dir, int steps)
+void	devide_process(t_deque *to, t_deque *from, int **pattern, int steps)
 {
-	int	i;
-	int	j;
-	int	tri_num;
+	int		i;
+	int		small_num;
+	char	to_a;
+	int		tri_num;
 
-	i = 1;
-	while (i <= steps)
+	to_a = !(steps % 2);
+	tri_num = ft_pow(3, steps - 1);
+	i = 0;
+	while (i < tri_num)
 	{
-		tri_num = ft_pow(3, i);
-		dir[i] = malloc(sizeof(int) * tri_num);
-		if (!dir[i])
-			return (-1);
-		j = 0;
-		while (j < tri_num / 3)
+		cases(to, from, to_a, pattern[steps - 1][i]);
+		if (i == tri_num / 3 * 2)
 		{
-			dir[i][j] = dir[i - 1][j] / 3;
-			dir[i][j + tri_num / 3 * 2] = dir[i - 1][j] / 3;
-			j++;
+			small_num = calc_small2(pattern, steps);
+			to_a = !to_a;
+			while (small_num > 0)
+			{
+				push(to, from, to_a);
+				small_num--;
+			}
 		}
-		while (j < tri_num / 9 * 4)
-		{
-			dir[i][j] = dir[i - 1][tri_num / 3 * 2 - 1 - j] / 3;
-			dir[i][j] += dir[i - 1][tri_num / 3 * 2 - 1 - j] % 3;
-			j++;
-		}
-		while (j < tri_num / 3 * 2)
-		{
-			dir[i][j] = (-1) * (dir[i - 1][tri_num / 3 * 2 - 1 - j] / 3);
-			dir[i][j] -= dir[i - 1][tri_num / 3 * 2 - 1 - j] % 3;
-			j++;
-		}
+	}
+}
+
+int	calc_small(int **pattern, int steps)
+{
+	int tri_num;
+	int	res;
+	int	element_num;
+	int	i;
+
+	steps--;
+	tri_num = ft_pow(3, steps - 1);
+	res = 0;
+	i = 0;
+	while (i < tri_num * 2)
+	{
+		element_num = ft_abs(pattern[steps][i]);
+		if (2 <= element_num && element_num <= 3)
+			res += 1;
+		else
+			res += 2;
 		i++;
 	}
-	return (0);
+	while (i < tri_num * 3)
+	{
+		element_num = ft_abs(pattern[steps][i]);
+		if (element_num == 5)
+			res += 1;
+		i++;
+	}
+	return (res);
+}
+
+int	calc_small2(int **pattern, int steps)
+{
+	int tri_num;
+	int	res;
+	int	element_num;
+	int	i;
+
+	steps--;
+	tri_num = ft_pow(3, steps - 1);
+	res = 0;
+	i = 0;
+	while (i < tri_num * 3)
+	{
+		element_num = ft_abs(pattern[steps][i]);
+		if (3 <= element_num && element_num <= 6)
+			res += 2;
+		else
+			res += 3;
+		i++;
+	}
+	return (res);
 }
