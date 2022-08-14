@@ -31,7 +31,8 @@ void	three2one(t_deque *to_from[2], char to_a, int up, int limit[3])
 				reverse_rotate(to_from[1], !to_a);
 			push(to_from[0], to_from[1], to_a);
 		}
-		limit[m]--;
+		if (limit[m] > 0)
+			limit[m]--;
 	}
 }
 
@@ -41,30 +42,33 @@ int	get_m(int data[3], int limit[3], int up)
 	int	m;
 	int	m_idx;
 
+	i = 0;
 	if (up)
 	{
-		m = INT32_MIN;
+		m = -__INT32_MAX__ - 1;
 		while (i < 3)
 		{
 			if (limit[i])
-				if (m < data[i])
+				if (m <= data[i])
 				{
 					m = data[i];
 					m_idx = i;
 				}
+			i++;
 		}
 	}
 	else
 	{
-		m = INT32_MAX;
+		m = __INT32_MAX__;
 		while (i < 3)
 		{
 			if (limit[i])
-				if (m > data[i])
+				if (m >= data[i])
 				{
 					m = data[i];
 					m_idx = i;
 				}
+		i++;
 		}
 	}
 	return (i);

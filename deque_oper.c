@@ -26,7 +26,6 @@ void	dqadd_front_node(t_deque *deque, t_dnode *node)
 	else
 		deque->rear = node;
 	deque->front = node;
-	return (0);
 }
 
 void	dqadd_back_node(t_deque *deque, t_dnode *node)
@@ -39,11 +38,10 @@ void	dqadd_back_node(t_deque *deque, t_dnode *node)
 	node->prev = ex_rear;
 	node->next = NULL;
 	if (ex_rear)
-		ex_rear->prev = node;
+		ex_rear->next = node;
 	else
 		deque->front = node;
 	deque->rear = node;
-	return (0);
 }
 
 t_dnode	*dqdel_front_node(t_deque *deque)
@@ -53,7 +51,7 @@ t_dnode	*dqdel_front_node(t_deque *deque)
 	if (!deque)
 		return (0);
 	ex_front = deque->front;
-	if (ex_front)
+	if (!ex_front)
 		return (0);
 	if (ex_front->next)
 		ex_front->next->prev = NULL;
@@ -70,7 +68,7 @@ t_dnode	*dqdel_back_node(t_deque *deque)
 	if (!deque)
 		return (0);
 	ex_rear = deque->rear;
-	if (ex_rear)
+	if (!ex_rear)
 		return (0);
 	if (ex_rear->prev)
 		ex_rear->prev->next = NULL;

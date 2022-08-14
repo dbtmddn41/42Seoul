@@ -3,7 +3,6 @@ with open("devide.txt", "r") as f:
 	i = 0
 	for line in f.readlines():
 		nums = line.rstrip().split()
-		print(nums)
 		d = {}
 		for num in nums:
 			num = abs(int(num))

@@ -19,7 +19,7 @@ void	rra(t_deque *a)
 	ex_front = dqdel_front_node(a);
 	if (!ex_front)
 		return ;
-	dqadd_rear_node(a, ex_front);	
+	dqadd_back_node(a, ex_front);	
 }
 
 void	rrb(t_deque *b)
@@ -57,7 +57,7 @@ void	reverse_rotate(t_deque *to, char for_a)
 	}
 	else
 	{
-		rbb(to);
+		rrb(to);
 		write(1, "rra\n", 4);
 	}
 }

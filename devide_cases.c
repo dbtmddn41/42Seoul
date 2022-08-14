@@ -56,17 +56,17 @@ void	case3(t_deque *to, t_deque *from, char to_a, int up)
 		if ((from->rear->data > to->front->data) == up)
 		{
 			push(to, from, to_a);
-			reverse_rotate(from, !to_a);
+			reverse_rotate(to, to_a);
 		}
 		else
 		{
-			reverse_rotate(from, !to_a);
+			reverse_rotate(to, to_a);
 			push(to, from, to_a);
 		}
 	}
 	else
 	{
-		reverse_rotate(from, to_a);
+		reverse_rotate(to, to_a);
 		push(to, from, to_a);
 		push(to, from, to_a);
 	}
@@ -74,7 +74,8 @@ void	case3(t_deque *to, t_deque *from, char to_a, int up)
 
 void	case4(t_deque *to, t_deque *from, char to_a, int up)
 {
-	int	limit[3];
+	int		limit[3];
+	t_deque	*to_from[2];
 
 	if ((from->rear->data < from->rear->prev->data) == up)
 		swap(from, !to_a);
@@ -83,24 +84,9 @@ void	case4(t_deque *to, t_deque *from, char to_a, int up)
 	limit[0] = 2;
 	limit[1] = 0;
 	limit[2] = 2;
+	to_from[0] = to;
+	to_from[1] = from;
 	three2one(to_from, to_a, up, limit);
-	while (i < 2 && j < 2)
-	{
-		if ((from->rear->data > to->front->data) == up)
-		{
-			push(to, from, to_a);
-			i++;
-		}
-		else
-		{
-			reverse_rotate(to, to_a);
-			j++;
-		}		
-	}
-	while (i++ < 2)
-		push(to, from, to_a);
-	while (j++ < 2)
-		reverse_rotate(to, to_a);
 }
 
 void	case5(t_deque *to, t_deque *from, char to_a, int up)

@@ -47,7 +47,7 @@ int	dqadd_front(t_deque *deque, int data)
 	return (0);
 }
 
-int	dqadd_rear(t_deque *deque, int data)
+int	dqadd_back(t_deque *deque, int data)
 {
 	t_dnode	*new_node;
 	t_dnode	*ex_rear;

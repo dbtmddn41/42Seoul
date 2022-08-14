@@ -30,7 +30,9 @@ typedef struct s_deque
 }t_deque;
 
 void	push_swap(t_deque *a, t_deque *b, int n);
+void	print_deque(t_deque *d);		//제거!
 
+void	dq_init(t_deque *dq);
 void	delete_dq(t_deque *dq);
 t_dnode	*create_node(int data, t_dnode *prev, t_dnode *next);
 int		dqadd_front(t_deque *deque, int data);
@@ -45,6 +47,7 @@ t_dnode	*dqdel_back_node(t_deque *deque);
 int		ft_abs(int a);
 int		log_int(int n, int x);
 int		ft_pow(int n, int x);
+void	ft_swap(void **a, void **b);
 
 int		**calc_pattern(int n, int steps);
 int		pattern_process(int **dir, int steps);

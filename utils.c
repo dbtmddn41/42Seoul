@@ -25,7 +25,7 @@ int	log_int(int n, int x)
 		if (m > __INT32_MAX__)
 			return (-1);
 		else if (x < m)
-		return (cnt);
+			return (cnt);
 		cnt++;
 	}
 }
@@ -53,4 +53,19 @@ int	ft_abs(int a)
 	if (a < 0)
 		a *= -1;
 	return (a);
+}
+
+void	dq_init(t_deque *dq)
+{
+	dq->front = NULL;
+	dq->rear = NULL;
+}
+
+void	ft_swap(void **a, void **b)
+{
+	void	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
