@@ -32,6 +32,7 @@ void	rr(t_deque *a, t_deque *b)
 	ra(a);
 	rb(b);
 	write(1, "rr\n", 3);
+	opers++;
 }
 
 void	rotate(t_deque *to, char for_a)
@@ -46,6 +47,7 @@ void	rotate(t_deque *to, char for_a)
 		rb(to);
 		write(1, "rb\n", 3);
 	}
+	opers++;
 }
 
 void	swap(t_deque *to, char for_a)
@@ -60,4 +62,5 @@ void	swap(t_deque *to, char for_a)
 		sb(to);
 		write(1, "sb\n", 3);
 	}
+	opers++;
 }

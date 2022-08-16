@@ -32,6 +32,7 @@ void	rrr(t_deque *a, t_deque *b)
 	rra(a);
 	rrb(b);
 	write(1, "rrr\n", 4);
+	opers++;
 }
 
 void	push(t_deque *to, t_deque *from, char to_a)
@@ -46,6 +47,7 @@ void	push(t_deque *to, t_deque *from, char to_a)
 		pb(from, to);
 		write(1, "pb\n", 3);	
 	}
+	opers++;
 }
 
 void	reverse_rotate(t_deque *to, char for_a)
@@ -58,6 +60,7 @@ void	reverse_rotate(t_deque *to, char for_a)
 	else
 	{
 		rrb(to);
-		write(1, "rra\n", 4);
+		write(1, "rrb\n", 4);
 	}
+	opers++;
 }

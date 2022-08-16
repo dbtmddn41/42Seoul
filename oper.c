@@ -38,6 +38,7 @@ void	ss(t_deque *a, t_deque *b)
 	sa(a);
 	sb(b);
 	write(1, "ss\n", 3);
+	opers++;
 }
 
 void	pa(t_deque *a, t_deque *b)

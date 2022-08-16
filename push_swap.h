@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+extern int	opers;
+
 typedef struct s_deque_node
 {
 	int					data;
@@ -53,15 +55,16 @@ int		**calc_pattern(int n, int steps);
 int		pattern_process(int **dir, int steps);
 void	delete_all(int **to_del);
 
-void	devide(t_deque *a, t_deque *b, int **pattern, int n);
-void	devide_process(t_deque *to, t_deque *from, int **pattern, int steps);
+void	devide(t_deque *to_from[2], int **pattern, int n, int steps);
 int		calc_small(int **pattern, int steps);
+
 int		calc_small2(int **pattern, int steps);
 void	cases(t_deque *to, t_deque *from, char to_a, int pat);
 void	case2(t_deque *to, t_deque *from, char to_a, int up);
 void	case3(t_deque *to, t_deque *from, char to_a, int up);
 void	case4(t_deque *to, t_deque *from, char to_a, int up);
 void	case5(t_deque *to, t_deque *from, char to_a, int up);
+void	case6(t_deque *to, t_deque *from, char to_a, int up);
 
 void	sa(t_deque *a);
 void	sb(t_deque *b);
@@ -80,5 +83,7 @@ void	rotate(t_deque *to, char for_a);
 void	reverse_rotate(t_deque *to, char for_a);
 
 void	three2one(t_deque *to_from[2], char to_a, int up, int limit[3]);
-int		get_m(int data[3], int limit[3], int up);	
+int		get_m(int data[3], int limit[3], int up);
+void	merge(t_deque *to_from[2], int **pattern, char to_a, int step);
+
 #endif
