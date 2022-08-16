@@ -37,7 +37,7 @@ void	ss(t_deque *a, t_deque *b)
 {
 	sa(a);
 	sb(b);
-	write(1, "ss\n", 3);
+	store_oper("ss\n");
 	opers++;
 }
 

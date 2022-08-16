@@ -1,40 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   devide_cases.c                                     :+:      :+:    :+:   */
+/*   cases.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slyu <slyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 19:58:06 by slyu              #+#    #+#             */
-/*   Updated: 2022/08/14 19:58:07 by slyu             ###   ########.fr       */
+/*   Created: 2022/08/16 23:59:14 by slyu              #+#    #+#             */
+/*   Updated: 2022/08/16 23:59:16 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	cases(t_deque *to, t_deque *from, char to_a, int pat)
-{
-	if (pat == 2)
-		case2(to, from, to_a, 1);
-	else if (pat == -2)
-		case2(to, from, to_a, 0);
-	else if (pat == 3)
-		case3(to, from, to_a, 1);
-	else if (pat == -3)
-		case3(to, from, to_a, 0);
-	else if (pat == 4)
-		case4(to, from, to_a, 1);
-	else if (pat == -4)
-		case4(to, from, to_a, 0);
-	else if (pat == 5)
-		case5(to, from, to_a, 1);
-	else if (pat == -5)
-		case5(to, from, to_a, 0);
-	else if (pat == 6)
-		case6(to, from, to_a, 1);
-	else if (pat == -6)
-		case6(to, from, to_a, 0);
-}
 
 void	case2(t_deque *to, t_deque *from, char to_a, int up)
 {

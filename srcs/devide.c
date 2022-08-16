@@ -58,7 +58,7 @@ int	calc_small(int **pattern, int steps)
 	tri_num = ft_pow(3, steps - 1);
 	res = 0;
 	i = 0;
-	while (i < tri_num * 2 / 3)
+	while (i < tri_num * 2 / 3 || (tri_num == 1 && i < tri_num))
 	{
 		element_num = ft_abs(pattern[steps - 1][i]);
 		if (2 <= element_num && element_num <= 3)

@@ -1,66 +1,66 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   oper3.c                                            :+:      :+:    :+:   */
+/*   oper2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slyu <slyu@student.42seoel.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 17:31:28 by slyu              #+#    #+#             */
-/*   Updated: 2022/08/14 17:31:29 by slyu             ###   ########.fr       */
+/*   Created: 2022/08/14 16:43:20 by slyu              #+#    #+#             */
+/*   Updated: 2022/08/14 16:43:22 by slyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rra(t_deque *a)
+void	ra(t_deque *a)
 {
-	t_dnode	*ex_front;
+	t_dnode	*ex_rear;
 
-	ex_front = dqdel_front_node(a);
-	if (!ex_front)
+	ex_rear = dqdel_back_node(a);
+	if (!ex_rear)
 		return ;
-	dqadd_back_node(a, ex_front);	
+	dqadd_front_node(a, ex_rear);	
 }
 
-void	rrb(t_deque *b)
+void	rb(t_deque *b)
 {
-	rra(b);
+	ra(b);
 }
 
-void	rrr(t_deque *a, t_deque *b)
+void	rr(t_deque *a, t_deque *b)
 {
-	rra(a);
-	rrb(b);
-	write(1, "rrr\n", 4);
+	ra(a);
+	rb(b);
+	store_oper("rr\n");
 	opers++;
 }
 
-void	push(t_deque *to, t_deque *from, char to_a)
-{
-	if (to_a)
-	{
-		pa(to, from);
-		write(1, "pa\n", 3);
-	}
-	else
-	{
-		pb(from, to);
-		write(1, "pb\n", 3);	
-	}
-	opers++;
-}
-
-void	reverse_rotate(t_deque *to, char for_a)
+void	rotate(t_deque *to, char for_a)
 {
 	if (for_a)
 	{
-		rra(to);
-		write(1, "rra\n", 4);	
+		ra(to);
+		store_oper("ra\n");
 	}
 	else
 	{
-		rrb(to);
-		write(1, "rrb\n", 4);
+		rb(to);
+		store_oper("rb\n");
+	}
+	opers++;
+}
+
+void	swap(t_deque *to, char for_a)
+{
+	if (for_a)
+	{
+		sa(to);
+		store_oper("sa\n");
+	}
+	else
+	{
+		sb(to);
+		store_oper("sb\n");
 	}
 	opers++;
 }

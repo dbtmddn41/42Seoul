@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include "ft_printf.h"
 
 extern int	opers;
 
@@ -32,6 +33,7 @@ typedef struct s_deque
 }t_deque;
 
 void	push_swap(t_deque *a, t_deque *b, int n);
+int		is_sorted(t_deque *dq);
 void	print_deque(t_deque *d);		//제거!
 
 void	dq_init(t_deque *dq);
@@ -45,11 +47,13 @@ void	dqadd_front_node(t_deque *deque, t_dnode *node);
 void	dqadd_back_node(t_deque *deque, t_dnode *node);
 t_dnode	*dqdel_front_node(t_deque *deque);
 t_dnode	*dqdel_back_node(t_deque *deque);
+int	check_dupli(t_deque *dq, int num);
 
 int		ft_abs(int a);
 int		log_int(int n, int x);
 int		ft_pow(int n, int x);
 void	ft_swap(void **a, void **b);
+int		ft_atoi2(const char *str);
 
 int		**calc_pattern(int n, int steps);
 int		pattern_process(int **dir, int steps);
@@ -57,6 +61,10 @@ void	delete_all(int **to_del);
 
 void	devide(t_deque *to_from[2], int **pattern, int n, int steps);
 int		calc_small(int **pattern, int steps);
+
+void	small_cases(t_deque *a, t_deque *b, int n, int up);
+void	small_case3(t_deque *a, int up);
+void	small_case456(t_deque *a, t_deque *b, int n);
 
 int		calc_small2(int **pattern, int steps);
 void	cases(t_deque *to, t_deque *from, char to_a, int pat);
@@ -81,9 +89,13 @@ void	swap(t_deque *to, char for_a);
 void	push(t_deque *to, t_deque *from, char to_a);
 void	rotate(t_deque *to, char for_a);
 void	reverse_rotate(t_deque *to, char for_a);
+void	store_oper(char *op);
+void	print_oper(int op_n, char *opers[]);
 
 void	three2one(t_deque *to_from[2], char to_a, int up, int limit[3]);
 int		get_m(int data[3], int limit[3], int up);
 void	merge(t_deque *to_from[2], int **pattern, char to_a, int step);
+
+void	error_handler(void);
 
 #endif
