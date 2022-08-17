@@ -12,7 +12,6 @@
 
 #include <stdio.h>
 #include "push_swap.h"
-int	opers = 0;
 
 int	main(int argc, char *argv[])
 {
@@ -20,7 +19,6 @@ int	main(int argc, char *argv[])
 	t_deque	b;
 	int		i;
 	int		num;
-	int		res;
 
 	dq_init(&a);
 	dq_init(&b);
@@ -29,15 +27,8 @@ int	main(int argc, char *argv[])
 	{
 		num = ft_atoi2(argv[i]);
 		if ((ft_strncmp(argv[i], "0", ft_strlen(argv[i])) && num == 0)
-			|| (ft_strncmp(argv[i], "-1", ft_strlen(argv[i])) && num == -1))
-		{
-			delete_dq(&a);
-			error_handler();
-		}
-		res = check_dupli(&a, num);
-		if (res != -1)
-			res = dqadd_front(&a, num);
-		if (res == -1)
+			|| (ft_strncmp(argv[i], "-1", ft_strlen(argv[i])) && num == -1)
+			|| check_dupli(&a, num) == -1 || dqadd_front(&a, num) == -1)
 		{
 			delete_dq(&a);
 			error_handler();
@@ -49,18 +40,6 @@ int	main(int argc, char *argv[])
 	store_oper(NULL);
 	delete_dq(&a);
 	delete_dq(&b);
-}
-
-void	print_deque(t_deque *d)
-{
-	t_dnode *curr = d->front;
-
-	while (curr != NULL)
-	{
-		printf("%d ", curr->data);
-		curr = curr->next;
-	}
-	printf("\n");
 }
 
 void	push_swap(t_deque *a, t_deque *b, int n)
@@ -91,4 +70,3 @@ void	push_swap(t_deque *a, t_deque *b, int n)
 	devide(to_from, pattern, n, steps--);
 	merge(to_from, pattern, steps % 2, steps);
 }
-

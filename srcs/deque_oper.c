@@ -80,7 +80,7 @@ t_dnode	*dqdel_back_node(t_deque *deque)
 
 void	delete_dq(t_deque *dq)
 {
-	t_dnode *tmp;
+	t_dnode	*tmp;
 	t_dnode	*curr;
 
 	curr = dq->front;

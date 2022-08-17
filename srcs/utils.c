@@ -47,7 +47,6 @@ int	ft_pow(int n, int x)
 	return ((int)res);
 }
 
-
 int	ft_abs(int a)
 {
 	if (a < 0)

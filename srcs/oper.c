@@ -38,7 +38,6 @@ void	ss(t_deque *a, t_deque *b)
 	sa(a);
 	sb(b);
 	store_oper("ss\n");
-	opers++;
 }
 
 void	pa(t_deque *a, t_deque *b)

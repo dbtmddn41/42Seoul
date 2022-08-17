@@ -40,7 +40,7 @@ void	store_oper(char *op)
 
 	if (op == NULL)
 	{
-		print_oper(i ,opers);
+		print_oper(i, opers);
 		i = 0;
 		return ;
 	}
@@ -48,7 +48,7 @@ void	store_oper(char *op)
 	i++;
 	if (i >= 100)
 	{
-		print_oper(i ,opers);
+		print_oper(i, opers);
 		i = 0;
 	}
 }
@@ -64,13 +64,14 @@ void	print_oper(int op_n, char *opers[])
 		if (opers[i][0] != 'p')
 		{
 			cmp = ft_strncmp(opers[i], opers[i + 1], 3);
-			if ((cmp == 'a' - 'b' || cmp == 'b' - 'a') && opers[i][0] == opers[i + 1][0])
+			if ((cmp == 'a' - 'b' || cmp == 'b' - 'a')
+				&& opers[i][0] == opers[i + 1][0])
 			{
 				write(1, opers[i], ft_strlen(opers[i]) - 2);
 				write(1, opers[i], 1);
 				write(1, "\n", 1);
 				i += 2;
-				continue;
+				continue ;
 			}
 		}
 		ft_putstr_fd(opers[i], 1);

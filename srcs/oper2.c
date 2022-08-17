@@ -19,7 +19,7 @@ void	ra(t_deque *a)
 	ex_rear = dqdel_back_node(a);
 	if (!ex_rear)
 		return ;
-	dqadd_front_node(a, ex_rear);	
+	dqadd_front_node(a, ex_rear);
 }
 
 void	rb(t_deque *b)
@@ -32,7 +32,6 @@ void	rr(t_deque *a, t_deque *b)
 	ra(a);
 	rb(b);
 	store_oper("rr\n");
-	opers++;
 }
 
 void	rotate(t_deque *to, char for_a)
@@ -47,7 +46,6 @@ void	rotate(t_deque *to, char for_a)
 		rb(to);
 		store_oper("rb\n");
 	}
-	opers++;
 }
 
 void	swap(t_deque *to, char for_a)
@@ -62,5 +60,4 @@ void	swap(t_deque *to, char for_a)
 		sb(to);
 		store_oper("sb\n");
 	}
-	opers++;
 }

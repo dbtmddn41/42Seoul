@@ -27,8 +27,8 @@ static void	init(int *index, int *buho, const char *s)
 
 int	ft_atoi2(const char *str)
 {
-	int		i;
-	int		buho;
+	int	i;
+	int	buho;
 	int	integer;
 
 	init(&i, &buho, str);

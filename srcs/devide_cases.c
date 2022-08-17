@@ -53,7 +53,7 @@ void	small_case456(t_deque *a, t_deque *b, int n)
 {
 	int		i;
 	int		limit[3];
-	t_deque *a_b[2];
+	t_deque	*a_b[2];
 
 	i = -1;
 	while (++i < n - 3)
@@ -88,4 +88,13 @@ void	small_case3(t_deque *a, int up)
 	lim[1]--;
 	if ((a->rear->data > a->rear->prev->data) == up)
 		swap(a, up);
+}
+
+void	swap_below(t_deque *to, char to_a)
+{
+	reverse_rotate(to, to_a);
+	reverse_rotate(to, to_a);
+	swap(to, to_a);
+	rotate(to, to_a);
+	rotate(to, to_a);
 }

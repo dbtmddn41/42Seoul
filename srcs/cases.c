@@ -105,22 +105,11 @@ void	case6(t_deque *to, t_deque *from, char to_a, int up)
 
 	if ((from->rear->data < from->rear->prev->data) == up)
 		swap(from, !to_a);
+	small_cases(from, to, 2, up);
 	if ((to->front->data < to->front->next->data) == up)
-	{
-		reverse_rotate(to, to_a);
-		reverse_rotate(to, to_a);
-		swap(to, to_a);
-		rotate(to, to_a);
-		rotate(to, to_a);
-	}
+		swap_below(to, to_a);
 	if ((from->front->data < from->front->next->data) == up)
-	{
-		reverse_rotate(from, !to_a);
-		reverse_rotate(from, !to_a);
-		swap(from, !to_a);
-		rotate(from, !to_a);
-		rotate(from, !to_a);
-	}
+		swap_below(from, !to_a);
 	limit[0] = 2;
 	limit[1] = 2;
 	limit[2] = 2;
