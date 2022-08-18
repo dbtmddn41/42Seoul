@@ -83,7 +83,7 @@ void	merge(t_deque *to_from[2], int **pattern, char to_a, int step)
 		limit[2] = ft_abs(pattern[step][tri_num * 2 + i]);
 		three2one(to_from, to_a, pattern[step - 1][i] > 0, limit);
 	}
-	move(to_from, pattern, to_a, step);
+	move(&to_from, pattern, &to_a, step);
 	while (i < tri_num)
 	{
 		limit[0] = ft_abs(pattern[step][tri_num / 3 + i]);
@@ -95,7 +95,7 @@ void	merge(t_deque *to_from[2], int **pattern, char to_a, int step)
 	merge(to_from, pattern, to_a, step - 1);
 }
 
-void	move(t_deque *to_from[2], int **pattern, char to_a, int step)
+void	move(t_deque *(*to_from[2]), int **pattern, char *to_a, int step)
 {
 	int	move_num;
 	int	i;
@@ -110,9 +110,9 @@ void	move(t_deque *to_from[2], int **pattern, char to_a, int step)
 		move_num += ft_abs(pattern[step][i++]);
 	while (move_num > 0)
 	{
-		push(to_from[0], to_from[1], to_a);
+		push((*to_from)[0], (*to_from)[1], *to_a);
 		move_num--;
 	}
-	to_a = !to_a;
-	ft_swap((void **)to_from, (void **)(to_from + 1));
+	ft_swap((void **)*to_from, (void **)(*to_from + 1));
+	*to_a = !*to_a;
 }

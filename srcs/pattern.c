@@ -34,7 +34,6 @@ int	**calc_pattern(int n, int steps)
 int	pattern_process(int **dir, int steps)
 {
 	int	i;
-	int	j;
 	int	tri_num;
 
 	i = 1;
@@ -52,10 +51,13 @@ int	pattern_process(int **dir, int steps)
 
 void	delete_all(int **to_del)
 {
-	while (*to_del != 0)
+	int	i;
+
+	i = 0;
+	while (to_del[i] != 0)
 	{
-		free(*to_del);
-		(*to_del)++;
+		free(to_del[i]);
+		i++;
 	}
 	free(to_del);
 }
