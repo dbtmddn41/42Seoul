@@ -31,7 +31,6 @@ void	rr(t_deque *a, t_deque *b)
 {
 	ra(a);
 	rb(b);
-	store_oper("rr\n");
 }
 
 void	rotate(t_deque *to, char for_a)

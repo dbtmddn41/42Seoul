@@ -33,6 +33,14 @@ int	is_sorted(t_deque *dq)
 	return (1);
 }
 
+int is_empty(t_deque *dq)
+{
+	if (dq->front == NULL && dq->rear == NULL)
+		return (1);
+	else
+		return (0);
+}
+
 void	store_oper(char *op)
 {
 	static char	*opers[100];
@@ -85,18 +93,4 @@ void	error_handler(void)
 {
 	ft_putstr_fd("Error\n", 2);
 	exit(-1);
-}
-
-int	check_dupli(t_deque *dq, int num)
-{
-	t_dnode	*curr;
-
-	curr = dq->front;
-	while (curr != NULL)
-	{
-		if (num == curr->data)
-			return (-1);
-		curr = curr->next;
-	}
-	return (0);
 }

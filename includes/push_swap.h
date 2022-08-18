@@ -30,6 +30,7 @@ typedef struct s_deque
 	t_dnode	*rear;
 }t_deque;
 
+void	check_push_arg(t_deque *a, char *arg, int num);
 void	push_swap(t_deque *a, t_deque *b, int n);
 int		is_sorted(t_deque *dq);
 

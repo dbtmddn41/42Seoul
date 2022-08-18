@@ -18,28 +18,36 @@ int	main(int argc, char *argv[])
 	t_deque	a;
 	t_deque	b;
 	int		i;
-	int		num;
+	char	**args;
+
 
 	dq_init(&a);
 	dq_init(&b);
-	i = 1;
-	while (i < argc)
+	args = argv + 1;
+	if (argc == 2)
+		args = ft_split(argv[1], ' ');
+	i = 0;
+	while (i < argc - 1 || (argc == 2 && args[i] != NULL))
 	{
-		num = ft_atoi2(argv[i]);
-		if ((ft_strncmp(argv[i], "0", ft_strlen(argv[i])) && num == 0)
-			|| (ft_strncmp(argv[i], "-1", ft_strlen(argv[i])) && num == -1)
-			|| check_dupli(&a, num) == -1 || dqadd_front(&a, num) == -1)
-		{
-			delete_dq(&a);
-			error_handler();
-		}
+		check_push_arg(&a, args[i], ft_atoi2(args[i]));
 		i++;
 	}
 	if (!is_sorted(&a))
-		push_swap(&a, &b, --i);
+		push_swap(&a, &b, i);
 	store_oper(NULL);
 	delete_dq(&a);
 	delete_dq(&b);
+}
+
+void	check_push_arg(t_deque *a, char *arg, int num)
+{
+		if ((ft_strncmp(arg, "0", ft_strlen(arg)) && num == 0)
+		|| (ft_strncmp(arg, "-1", ft_strlen(arg)) && num == -1)
+		|| check_dupli(a, num) == -1 || dqadd_front(a, num) == -1)
+		{
+			delete_dq(a);
+			error_handler();
+		}
 }
 
 void	push_swap(t_deque *a, t_deque *b, int n)

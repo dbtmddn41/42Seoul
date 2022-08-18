@@ -50,3 +50,28 @@ int	ft_atoi2(const char *str)
 	}
 	return (buho * integer);
 }
+
+int	check_dupli(t_deque *dq, int num)
+{
+	t_dnode	*curr;
+
+	curr = dq->front;
+	while (curr != NULL)
+	{
+		if (num == curr->data)
+			return (-1);
+		curr = curr->next;
+	}
+	return (0);
+}
+
+void	check_push_arg(t_deque *a, char *arg, int num)
+{
+		if ((ft_strncmp(arg, "0", ft_strlen(arg)) && num == 0)
+		|| (ft_strncmp(arg, "-1", ft_strlen(arg)) && num == -1)
+		|| check_dupli(a, num) == -1 || dqadd_front(a, num) == -1)
+		{
+			delete_dq(a);
+			error_handler();
+		}
+}

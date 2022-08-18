@@ -11,12 +11,14 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -c -g
-FLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -c
+FLAGS = -Wall -Wextra -Werror
 TARGET = push_swap
+CHECKER = checker
 LIB_DIR = ./ft_printf
 LIB = ftprintf
 INCLUDE = -I$(LIB_DIR)/includes -I$(LIB_DIR)/libft -I./includes
+DEFINE = -D BUFFER_SIZE=42
 
 SRCS = \
 ./srcs/deque_oper.c \
@@ -34,9 +36,24 @@ SRCS = \
 ./srcs/others.c \
 ./srcs/utils2.c
 
-INC = ./includes/push_swap.h
+GNL_SRCS = \
+./srcs/get_next_line.c \
+./srcs/get_next_line_utils.c
+
+CHECKER_SRCS = \
+./srcs/deque_oper.c \
+./srcs/deque.c \
+./srcs/oper.c \
+./srcs/oper2.c \
+./srcs/oper3.c \
+./srcs/utils.c \
+./srcs/others.c \
+./srcs/utils2.c \
+./srcs/checker.c
 
 OBJS = $(SRCS:.c=.o)
+CHECKER_OBJS = $(CHECKER_SRCS:.c=.o)
+GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 all: $(LIB) $(TARGET)
 
@@ -46,16 +63,21 @@ $(LIB):
 $(TARGET): $(OBJS)
 	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
 
+bonus: $(CHECKER)
+
+$(CHECKER): $(CHECKER_OBJS) $(GNL_OBJS)
+	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
+
 %.o: %.c
-	$(CC) $(CFLAGS) $< -o ${<:.c=.o} $(INCLUDE)
+	$(CC) $(CFLAGS) $< -o ${<:.c=.o} $(INCLUDE) $(DEFINE)
 
 clean:
-	make clean -C $(LIB_DIR)
-	rm -f $(OBJS)
+	make clean -C $(LIB_DIR) 
+	rm -f $(OBJS) $(CHECKER_OBJS) $(GNL_OBJS)
 
 fclean:
 	make clean
-	rm -f $(TARGET)
+	rm -f $(TARGET) $(CHECKER)
 
 re: fclean all
 

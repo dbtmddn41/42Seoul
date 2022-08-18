@@ -31,7 +31,6 @@ void	rrr(t_deque *a, t_deque *b)
 {
 	rra(a);
 	rrb(b);
-	store_oper("rrr\n");
 }
 
 void	push(t_deque *to, t_deque *from, char to_a)
