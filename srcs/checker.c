@@ -20,39 +20,38 @@ int	main(int argc, char *argv[])
 	int		i;
 	char	**args;
 
-
 	dq_init(&a);
 	dq_init(&b);
 	args = argv + 1;
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
+	if (args == NULL || argc == 1)
+		return (-1);
 	i = 0;
 	while (i < argc - 1 || (argc == 2 && args[i] != NULL))
 	{
 		check_push_arg(&a, args[i], ft_atoi2(args[i]));
 		i++;
 	}
-	opers = read_inst(opers);
-	if (!opers)
-	{
-		delete_dq(&a);
-		delete_dq(&b);
-		ft_lstclear(&opers, free);
-		error_handler();
-	}
-	operate(&a, &b, opers);
+	opers = read_inst();
+	if (opers)
+		operate(&a, &b, opers);
 	delete_dq(&a);
 	delete_dq(&b);
+	if (!opers)
+		error_handler();
 	ft_lstclear(&opers, free);
 }
 
 void	operate(t_deque *a, t_deque *b, t_list *opers)
 {
-	int	res;
+	int		res;
+	t_list	*curr;
 
-	while (opers != NULL)
+	curr = opers;
+	while (curr != NULL && curr->content != NULL)
 	{
-		res = execute(a, b, opers->content);
+		res = execute(a, b, curr->content);
 		if (res == -1)
 		{
 			delete_dq(a);
@@ -60,7 +59,7 @@ void	operate(t_deque *a, t_deque *b, t_list *opers)
 			ft_lstclear(&opers, free);
 			error_handler();
 		}
-		opers = opers->next;
+		curr = curr->next;
 	}
 	if (is_sorted(a) && is_empty(b))
 		write(1, "OK\n", 3);
@@ -71,6 +70,7 @@ void	operate(t_deque *a, t_deque *b, t_list *opers)
 int	execute(t_deque *a, t_deque *b, char *oper)
 {
 	unsigned int	str_len;
+	int				res;
 
 	str_len = ft_strlen(oper);
 	if (!ft_strncmp(oper, "sa\n", str_len))
@@ -85,7 +85,18 @@ int	execute(t_deque *a, t_deque *b, char *oper)
 		pa(a, b);
 	else if (!ft_strncmp(oper, "pb\n", str_len))
 		pb(a, b);
-	else if (!ft_strncmp(oper, "ra\n", str_len))
+	else
+	{
+		res = execute2(a, b, oper, str_len);
+		if (res == -1)
+			return (-1);
+	}
+	return (0);
+}
+
+int	execute2(t_deque *a, t_deque *b, char *oper, unsigned int str_len)
+{
+	if (!ft_strncmp(oper, "ra\n", str_len))
 		ra(a);
 	else if (!ft_strncmp(oper, "rb\n", str_len))
 		rb(b);
@@ -102,30 +113,30 @@ int	execute(t_deque *a, t_deque *b, char *oper)
 	return (0);
 }
 
-t_list	*read_inst(t_list *opers)
+t_list	*read_inst(void)
 {
 	char	*oper;
 	t_list	*curr;
+	t_list	*opers;
 
 	opers = malloc(sizeof(t_list));
 	if (!opers)
 		return (0);
-	oper = get_next_line(0);
-	opers->content = oper;
 	curr = opers;
-	while (oper != NULL)
+	while (1)
 	{
-		if (oper[0] == '\0')
-		{
-			curr->next = NULL;
-			return (opers);
-		}
-		curr->next = malloc(sizeof(t_list));
-		if (!curr->next)
-			break ;
-		curr = curr->next;
-		curr->content = oper;
 		oper = get_next_line(0);
+		if (!oper)
+			break ;
+		curr->content = oper;
+		curr->next = malloc(sizeof(t_list));
+		curr = curr->next;
+		if (!curr)
+		{
+			ft_lstclear(&opers, free);
+			return (0);
+		}
 	}
-	return (0);
+	curr->next = NULL;
+	return (opers);
 }

@@ -46,9 +46,9 @@ int		check_dupli(t_deque *dq, int num);
 int		is_sorted(t_deque *dq);
 int		is_empty(t_deque *dq);
 
-
-t_list	*read_inst(t_list *opers);
+t_list	*read_inst(void);
 void	check_push_arg(t_deque *a, char *arg, int num);
+int		execute2(t_deque *a, t_deque *b, char *oper, unsigned int str_len);
 int		execute(t_deque *a, t_deque *b, char *oper);
 void	operate(t_deque *a, t_deque *b, t_list *opers);
 void	error_handler(void);

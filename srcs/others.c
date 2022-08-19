@@ -33,7 +33,7 @@ int	is_sorted(t_deque *dq)
 	return (1);
 }
 
-int is_empty(t_deque *dq)
+int	is_empty(t_deque *dq)
 {
 	if (dq->front == NULL && dq->rear == NULL)
 		return (1);

@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -c
-FLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -c -g
+FLAGS = -Wall -Wextra -Werror -g
 TARGET = push_swap
 CHECKER = checker
 LIB_DIR = ./ft_printf
@@ -63,7 +63,7 @@ $(LIB):
 $(TARGET): $(OBJS)
 	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
 
-bonus: $(CHECKER)
+bonus: $(LIB) $(CHECKER)
 
 $(CHECKER): $(CHECKER_OBJS) $(GNL_OBJS)
 	$(CC) $(FLAGS) -o $@ $^ $(LIB_DIR)/lib$(LIB).a
@@ -76,7 +76,8 @@ clean:
 	rm -f $(OBJS) $(CHECKER_OBJS) $(GNL_OBJS)
 
 fclean:
-	make clean
+	make fclean -C $(LIB_DIR) 
+	rm -f $(OBJS) $(CHECKER_OBJS) $(GNL_OBJS)
 	rm -f $(TARGET) $(CHECKER)
 
 re: fclean all

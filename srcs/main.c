@@ -20,7 +20,6 @@ int	main(int argc, char *argv[])
 	int		i;
 	char	**args;
 
-
 	dq_init(&a);
 	dq_init(&b);
 	args = argv + 1;
@@ -37,17 +36,6 @@ int	main(int argc, char *argv[])
 	store_oper(NULL);
 	delete_dq(&a);
 	delete_dq(&b);
-}
-
-void	check_push_arg(t_deque *a, char *arg, int num)
-{
-		if ((ft_strncmp(arg, "0", ft_strlen(arg)) && num == 0)
-		|| (ft_strncmp(arg, "-1", ft_strlen(arg)) && num == -1)
-		|| check_dupli(a, num) == -1 || dqadd_front(a, num) == -1)
-		{
-			delete_dq(a);
-			error_handler();
-		}
 }
 
 void	push_swap(t_deque *a, t_deque *b, int n)

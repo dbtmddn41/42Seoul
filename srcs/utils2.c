@@ -67,11 +67,11 @@ int	check_dupli(t_deque *dq, int num)
 
 void	check_push_arg(t_deque *a, char *arg, int num)
 {
-		if ((ft_strncmp(arg, "0", ft_strlen(arg)) && num == 0)
+	if ((ft_strncmp(arg, "0", ft_strlen(arg)) && num == 0)
 		|| (ft_strncmp(arg, "-1", ft_strlen(arg)) && num == -1)
 		|| check_dupli(a, num) == -1 || dqadd_front(a, num) == -1)
-		{
-			delete_dq(a);
-			error_handler();
-		}
+	{
+		delete_dq(a);
+		error_handler();
+	}
 }

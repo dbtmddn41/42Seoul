@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#define OPEN_MAX 100
 
 char	*get_next_line(int fd)
 {

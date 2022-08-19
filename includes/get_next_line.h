@@ -20,7 +20,7 @@
 
 typedef struct s_gnllist
 {
-	char			content[BUFFER_SIZE];
+	char				content[BUFFER_SIZE];
 	struct s_gnllist	*next;
 }t_gnllist;
 
