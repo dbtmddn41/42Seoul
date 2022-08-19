@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -c -g
 FLAGS = -Wall -Wextra -Werror -g
 TARGET = push_swap
@@ -18,7 +18,7 @@ CHECKER = checker
 LIB_DIR = ./ft_printf
 LIB = ftprintf
 INCLUDE = -I$(LIB_DIR)/includes -I$(LIB_DIR)/libft -I./includes
-DEFINE = -D BUFFER_SIZE=42
+DEFINE = -D BUFFER_SIZE=1000
 
 SRCS = \
 ./srcs/deque_oper.c \
