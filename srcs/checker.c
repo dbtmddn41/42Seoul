@@ -16,7 +16,6 @@ int	main(int argc, char *argv[])
 {
 	t_deque	a;
 	t_deque	b;
-	t_list	*opers;
 	int		i;
 	char	**args;
 
@@ -33,33 +32,80 @@ int	main(int argc, char *argv[])
 		check_push_arg(&a, args[i], ft_atoi2(args[i]));
 		i++;
 	}
-	opers = read_inst();
-	if (opers)
-		operate(&a, &b, opers);
+	read_inst(&a, &b);
 	delete_dq(&a);
 	delete_dq(&b);
-	if (!opers)
-		error_handler();
-	ft_lstclear(&opers, free);
+	if (argc == 2)
+		delete_all((void **)args);
 }
 
-void	operate(t_deque *a, t_deque *b, t_list *opers)
+int	execute(t_deque *a, t_deque *b, char *oper)
 {
-	int		res;
-	t_list	*curr;
+	int				res;
 
-	curr = opers;
-	while (curr != NULL && curr->content != NULL)
+	if (!ft_strncmp(oper, "sa\n", 3))
+		sa(a);
+	else if (!ft_strncmp(oper, "sb\n", 3))
+		sb(b);
+	else if (!ft_strncmp(oper, "sa\n", 3))
+		sa(a);
+	else if (!ft_strncmp(oper, "ss\n", 3))
+		ss(a, b);
+	else if (!ft_strncmp(oper, "pa\n", 3))
+		pa(a, b);
+	else if (!ft_strncmp(oper, "pb\n", 3))
+		pb(a, b);
+	else
 	{
-		res = execute(a, b, curr->content);
+		res = execute2(a, b, oper);
 		if (res == -1)
 		{
-			delete_dq(a);
-			delete_dq(b);
-			ft_lstclear(&opers, free);
-			error_handler();
+			ft_printf("execute: %s", oper);
+			return (-1);
 		}
-		curr = curr->next;
+	}
+	return (0);
+}
+
+int	execute2(t_deque *a, t_deque *b, char *oper)
+{
+	if (!ft_strncmp(oper, "ra\n", 3))
+		ra(a);
+	else if (!ft_strncmp(oper, "rb\n", 3))
+		rb(b);
+	else if (!ft_strncmp(oper, "rr\n", 3))
+		rr(a, b);
+	else if (!ft_strncmp(oper, "rra\n", 4))
+		rra(a);
+	else if (!ft_strncmp(oper, "rrb\n", 4))
+		rrb(b);
+	else if (!ft_strncmp(oper, "rrr\n", 4))
+		rrr(a, b);
+	else
+		return (-1);
+	return (0);
+}
+
+void	read_inst(t_deque *a, t_deque *b)
+{
+	char	*oper;
+	int		res;
+	char	*tmp;
+
+	while (1)
+	{
+		oper = get_next_line(0);
+		if (!oper)
+			break ;
+		while (oper[ft_strlen(oper) - 1] != '\n')
+		{
+			tmp = get_next_line(0);
+			if (tmp)
+				oper = ft_strjoin(oper, tmp);
+		}
+		res = execute(a, b, oper);
+		if (res == -1)
+			checker_error(a, b);
 	}
 	if (is_sorted(a) && is_empty(b))
 		write(1, "OK\n", 3);
@@ -67,76 +113,9 @@ void	operate(t_deque *a, t_deque *b, t_list *opers)
 		write(1, "KO\n", 3);
 }
 
-int	execute(t_deque *a, t_deque *b, char *oper)
+void	checker_error(t_deque *a, t_deque *b)
 {
-	unsigned int	str_len;
-	int				res;
-
-	str_len = ft_strlen(oper);
-	if (!ft_strncmp(oper, "sa\n", str_len))
-		sa(a);
-	else if (!ft_strncmp(oper, "sb\n", str_len))
-		sb(b);
-	else if (!ft_strncmp(oper, "sa\n", str_len))
-		sa(a);
-	else if (!ft_strncmp(oper, "ss\n", str_len))
-		ss(a, b);
-	else if (!ft_strncmp(oper, "pa\n", str_len))
-		pa(a, b);
-	else if (!ft_strncmp(oper, "pb\n", str_len))
-		pb(a, b);
-	else
-	{
-		res = execute2(a, b, oper, str_len);
-		if (res == -1)
-			return (-1);
-	}
-	return (0);
-}
-
-int	execute2(t_deque *a, t_deque *b, char *oper, unsigned int str_len)
-{
-	if (!ft_strncmp(oper, "ra\n", str_len))
-		ra(a);
-	else if (!ft_strncmp(oper, "rb\n", str_len))
-		rb(b);
-	else if (!ft_strncmp(oper, "rr\n", str_len))
-		rr(a, b);
-	else if (!ft_strncmp(oper, "rra\n", str_len))
-		rra(a);
-	else if (!ft_strncmp(oper, "rrb\n", str_len))
-		rrb(b);
-	else if (!ft_strncmp(oper, "rrr\n", str_len))
-		rrr(a, b);
-	else
-		return (-1);
-	return (0);
-}
-
-t_list	*read_inst(void)
-{
-	char	*oper;
-	t_list	*curr;
-	t_list	*opers;
-
-	opers = malloc(sizeof(t_list));
-	if (!opers)
-		return (0);
-	curr = opers;
-	while (1)
-	{
-		oper = get_next_line(0);
-		if (!oper)
-			break ;
-		curr->content = oper;
-		curr->next = malloc(sizeof(t_list));
-		curr = curr->next;
-		if (!curr)
-		{
-			ft_lstclear(&opers, free);
-			return (0);
-		}
-	}
-	curr->next = NULL;
-	return (opers);
+	delete_dq(a);
+	delete_dq(b);
+	error_handler();
 }

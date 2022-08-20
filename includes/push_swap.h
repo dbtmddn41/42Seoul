@@ -55,7 +55,7 @@ int		ft_atoi2(const char *str);
 
 int		**calc_pattern(int n, int steps);
 int		pattern_process(int **dir, int steps);
-void	delete_all(int **to_del);
+void	delete_all(void **to_del);
 void	dp_pattern(int **dir, int i, int tri_num);
 
 void	devide(t_deque *to_from[2], int **pattern, int n, int steps);

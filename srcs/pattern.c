@@ -25,7 +25,7 @@ int	**calc_pattern(int n, int steps)
 	res = pattern_process(dir, steps);
 	if (res == -1)
 	{
-		delete_all(dir);
+		delete_all((void **)dir);
 		return (0);
 	}
 	return (dir);
@@ -47,19 +47,6 @@ int	pattern_process(int **dir, int steps)
 		i++;
 	}
 	return (0);
-}
-
-void	delete_all(int **to_del)
-{
-	int	i;
-
-	i = 0;
-	while (to_del[i] != 0)
-	{
-		free(to_del[i]);
-		i++;
-	}
-	free(to_del);
 }
 
 void	dp_pattern(int **dir, int i, int tri_num)

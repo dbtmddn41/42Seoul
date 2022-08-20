@@ -75,3 +75,16 @@ void	check_push_arg(t_deque *a, char *arg, int num)
 		error_handler();
 	}
 }
+
+void	delete_all(void **to_del)
+{
+	int	i;
+
+	i = 0;
+	while (to_del[i] != 0)
+	{
+		free(to_del[i]);
+		i++;
+	}
+	free(to_del);
+}

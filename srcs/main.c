@@ -61,5 +61,5 @@ void	push_swap(t_deque *a, t_deque *b, int n)
 	}
 	devide(to_from, pattern, n, steps--);
 	merge(to_from, pattern, steps % 2, steps);
-	delete_all(pattern);
+	delete_all((void **)pattern);
 }
