@@ -19,13 +19,15 @@ int	main(int argc, char *argv[])
 	int		i;
 	char	**args;
 
+	if (argc == 1)
+		return (0);
 	dq_init(&a);
 	dq_init(&b);
 	args = argv + 1;
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
-	if (args == NULL || argc == 1)
-		return (-1);
+	if (args == NULL)
+		error_handler();
 	i = 0;
 	while (i < argc - 1 || (argc == 2 && args[i] != NULL))
 	{
@@ -60,7 +62,6 @@ int	execute(t_deque *a, t_deque *b, char *oper)
 		res = execute2(a, b, oper);
 		if (res == -1)
 		{
-			ft_printf("execute: %s", oper);
 			return (-1);
 		}
 	}
@@ -104,6 +105,7 @@ void	read_inst(t_deque *a, t_deque *b)
 				oper = ft_strjoin(oper, tmp);
 		}
 		res = execute(a, b, oper);
+		free(oper);
 		if (res == -1)
 			checker_error(a, b);
 	}
