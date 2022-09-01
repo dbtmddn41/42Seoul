@@ -1,0 +1,5 @@
+minilibx-linux/
+mlx_practice/
+*.o
+peda-*
+.gdb_history
