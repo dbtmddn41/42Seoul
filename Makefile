@@ -12,7 +12,7 @@
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -c -g
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 TARGET = fractol
 OBJ_INCLUDE = -I/usr/include -Imlx_linux -I. -I./minilibx-linux/ -I$(LIB_DIR)
 INCLUDE = -L./minilibx-linux/ -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -I./minilibx-linux/ -I. -I$(LIB_DIR)

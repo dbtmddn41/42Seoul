@@ -79,9 +79,9 @@ int	newton(int argc, char *argv[], t_mlx_data *mlx_data)
 	while (++i < degree * 2)
 	{
 		if (i % 2 == 0)
-			mlx_data->newton->sol_re[i / 2] = ft_atoi(argv[i + 3]);
+			mlx_data->newton->sol_re[i / 2] = atof(argv[i + 3]);	//바꾸기
 		else
-			mlx_data->newton->sol_im[i / 2] = ft_atoi(argv[i + 3]);
+			mlx_data->newton->sol_im[i / 2] = atof(argv[i + 3]);
 	}
 	return (0);
 }
