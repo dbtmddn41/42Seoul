@@ -18,47 +18,59 @@ OBJ_INCLUDE = -I/usr/include -Imlx_linux -I. -I./minilibx-linux/ -I$(LIB_DIR)
 INCLUDE = -L./minilibx-linux/ -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -I./minilibx-linux/ -I. -I$(LIB_DIR)
 LIB_DIR = ./libft/
 LIB = ft
+MLX_LIB_DIR = ./mlx/
+MLX_LIB = mlx
 
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-OBJ_INCLUDE = -I/usr/include -Imlx_linux -I. -I./minilibx-linux/ -I$(LIB_DIR)
-INCLUDE = -L./minilibx-linux/ -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -I./minilibx-linux/ -I. -I$(LIB_DIR)
+OBJ_INCLUDE = -I/usr/include -Imlx_linux -Iincludes -I./minilibx-linux/ -I$(LIB_DIR)
+INCLUDE = -L./minilibx-linux/ -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -I./minilibx-linux/ -Iincludes -I$(LIB_DIR)
 endif
 ifeq ($(UNAME), Darwin)
-OBJ_INCLUDE = -Imlx -I$(LIB_DIR) -I.
-INCLUDE = -Lmlx -lmlx -framework OpenGL -framework AppKit -I. -I$(LIB_DIR)
+OBJ_INCLUDE = -Imlx -I$(LIB_DIR) -Iincludes
+INCLUDE = -L$(MLX_LIB) -I$(MLX_LIB) -framework OpenGL -framework AppKit -Iincludes -I$(LIB_DIR)
 endif
 
 SRCS = \
-./main.c \
-./image.c \
-./hook.c \
-./bounded.c \
-./newton.c \
-./others.c \
+./srcs/main.c \
+./srcs/image.c \
+./srcs/hook.c \
+./srcs/bounded.c \
+./srcs/newton.c \
+./srcs/others.c \
+./srcs/move.c \
 
-HEADERS = fract_ol.h
+HEADERS = ./includes/fract_ol.h
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(LIB) $(TARGET)
+all: $(MLX_LIB) $(LIB) $(TARGET)
+
+$(MLX_LIB):
+	make -C $(MLX_LIB_DIR)
+	cp $(MLX_LIB_DIR)libmlx.dylib .
 
 $(LIB):
 	make -C $(LIB_DIR)
 
 $(TARGET): $(OBJS) $(HEADERS)
-	$(CC) $(FLAGS) -o $@ $(OBJS) $(INCLUDE) $(LIB_DIR)lib$(LIB).a
+	make -C $(MLX_LIB_DIR)
+	cp $(MLX_LIB_DIR)libmlx.dylib .
+	$(CC) $(FLAGS) -o $@ $(OBJS) $(INCLUDE) $(LIB_DIR)lib$(LIB).a lib$(MLX_LIB).dylib
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o ${<:.c=.o} $(OBJ_INCLUDE)
 
 clean:
-	make clean -C $(LIB_DIR) 
+	make clean -C $(MLX_LIB_DIR)
+	make clean -C $(LIB_DIR)
 	rm -f $(OBJS)
 
 fclean:
+	make clean -C $(MLX_LIB_DIR)
 	make fclean -C $(LIB_DIR) 
+	rm -f lib$(MLX_LIB).dylib
 	rm -f $(OBJS) $(TARGET)
 
 re : fclean all

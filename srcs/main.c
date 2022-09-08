@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "fract_ol.h"
+
 int	main(int argc, char *argv[])
 {
 	t_mlx_data	mlx_data;
+
 	if (check_arg(argc, argv, &mlx_data) == -1)
 		arg_error();
 	fractol(&mlx_data);
@@ -60,7 +62,7 @@ int	newton(int argc, char *argv[], t_mlx_data *mlx_data)
 	mlx_data->newton = malloc(sizeof(t_newton));
 	errcheck(errno);
 	mlx_data->newton->degree = degree;
-	mlx_data->newton->sol_re = malloc(degree * sizeof(double));	
+	mlx_data->newton->sol_re = malloc(degree * sizeof(double));
 	errcheck(errno);
 	mlx_data->newton->sol_im = malloc(degree * sizeof(double));
 	errcheck(errno);
@@ -83,24 +85,28 @@ void	fractol(t_mlx_data *mlx_data)
 	init_(mlx_data);
 	set_default_pix_se(pix_start, pix_end);
 	make_image(mlx_data, pix_start, pix_end);
-	mlx_put_image_to_window(mlx_data->mlx, mlx_data->win, mlx_data->img_data.img, 0, 0);
+	mlx_put_image_to_window(mlx_data->mlx, mlx_data->win,
+		mlx_data->imgdata.img, 0, 0);
 	mlx_mouse_hook(mlx_data->win, mouse_hook, mlx_data);
 	mlx_key_hook(mlx_data->win, key_hook, mlx_data);
 	mlx_hook(mlx_data->win, X_EVENT_KEY_EXIT, 0, key_exit, NULL);
 	mlx_loop(mlx_data->mlx);
 }
 
-void	init_(t_mlx_data *mlx_data)		//예외처리
+void	init_(t_mlx_data *mlx_data)
 {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	mlx_data->mlx = mlx_init();
 	mlx_data->win = mlx_new_window(mlx_data->mlx, SIZE_X, SIZE_Y, "fractol");
-	mlx_data->img_data.img = mlx_new_image(mlx_data->mlx, SIZE_X, SIZE_Y);
-	mlx_data->img_data.addr = mlx_get_data_addr(mlx_data->img_data.img, &(mlx_data->img_data.bits_per_pixel), &(mlx_data->img_data.line_length), &(mlx_data->img_data.endian));
-	mlx_data->complex_num.num_start[0] = -2.0;
-	mlx_data->complex_num.num_start[1] = -1.0;
-	mlx_data->complex_num.space[0] = INI_X_SPACE;
-	mlx_data->complex_num.space[1] = INI_Y_SPACE;
+	mlx_data->imgdata.img = mlx_new_image(mlx_data->mlx, SIZE_X, SIZE_Y);
+	mlx_data->imgdata.addr = mlx_get_data_addr(mlx_data->imgdata.img,
+			&(mlx_data->imgdata.bits_per_pixel),
+			&(mlx_data->imgdata.line_length),
+			&(mlx_data->imgdata.endian));
+	mlx_data->complex_num.n_start[0] = -2.0;
+	mlx_data->complex_num.n_start[1] = -1.0;
+	mlx_data->complex_num.space[0] = (INI_WIDTH / SIZE_X);
+	mlx_data->complex_num.space[1] = (INI_HIGHT / SIZE_Y);
 	if (mlx_data->fractal_type != NEWTON)
 		mlx_data->newton = NULL;
 }

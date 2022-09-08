@@ -32,11 +32,6 @@ int	newton_mtd(t_newton *nt, double re, double im)
 	return (converse_iter(nt, find_closest(nt, re, im)));
 }
 
-int	converse_iter(t_newton *nt, int idx)
-{
-	return (floor(MAXITER / (double)(nt->degree) * (double)(idx + 1)));
-}
-
 void	calc_fdfp(t_newton *nt, double re, double im, double *result)
 {
 	double	res[2];
@@ -73,7 +68,8 @@ int	check_conv(t_newton *nt, double re, double im)
 	i = 0;
 	while (i < nt->degree)
 	{
-		if (fabs(nt->sol_re[i] - re) < DBL_EPSILON && fabs(nt->sol_im[i] - im) < DBL_EPSILON)
+		if (fabs(nt->sol_re[i] - re) < DBL_EPSILON && fabs(nt->sol_im[i] - im)
+			< DBL_EPSILON)
 			return (i);
 		i++;
 	}

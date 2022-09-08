@@ -41,7 +41,7 @@
 
 # ifdef __APPLE__
 #  define WHEEL_UP 4
-#  define WHEEL_DOWN 5
+#  define WHEEL_D 5
 #  define L_ARROW 123
 #  define U_ARROW 126
 #  define R_ARROW 124
@@ -54,18 +54,15 @@
 
 # define SIZE_X 720
 # define SIZE_Y 400
-# define ZOOM_SCALE 0.95
-# define MOVE_X_SCALE (SIZE_X / 15)
-# define MOVE_Y_SCALE (SIZE_Y / 15)
+# define ZOOM_RATE 0.95
+# define MOVE_RATE 15
 # define MAXITER 31
 # define INI_WIDTH 4.0
 # define INI_HIGHT 2.0
-# define INI_X_SPACE (INI_WIDTH / SIZE_X)
-# define INI_Y_SPACE (INI_HIGHT / SIZE_Y)
 
 typedef struct s_complex_num
 {
-	double	num_start[2];
+	double	n_start[2];
 	double	space[2];
 	double	constant[2];
 }t_complex_num;
@@ -89,7 +86,7 @@ typedef struct s_newton
 typedef struct s_mlx_data {
 	void			*mlx;
 	void			*win;
-	t_img_data		img_data;
+	t_img_data		imgdata;
 	t_complex_num	complex_num;
 	int				fractal_type;
 	t_newton		*newton;
@@ -104,6 +101,7 @@ int		key_hook(int keycode, t_mlx_data *mlx_data);
 int		mouse_hook(int button, int x, int y, t_mlx_data *mlx_data);
 void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color);
 void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2]);
+int		iterate(t_mlx_data *mlx_data, double re, double im);
 int		bw_color(int iters);
 int		get_color(int iters, int mode);
 void	set_default_pix_se(int *pix_start, int *pix_end);

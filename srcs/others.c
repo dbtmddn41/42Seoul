@@ -56,7 +56,7 @@ static double	get_fraction(const char **str)
 	{
 		fraction += (**str - '0') / (double)i;
 		i *= 10;
-		if (i  < 0)
+		if (i < 0)
 			errcheck(EOVERFLOW);
 		(*str)++;
 	}
