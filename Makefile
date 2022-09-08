@@ -36,6 +36,7 @@ SRCS = \
 ./hook.c \
 ./bounded.c \
 ./newton.c \
+./others.c \
 
 HEADERS = fract_ol.h
 

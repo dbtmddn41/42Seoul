@@ -16,12 +16,14 @@ int	newton_mtd(t_newton *nt, double re, double im)
 {
 	int		i;
 	int		conv;
+	double	fdfp[2];
 
 	i = 0;
 	while (i < MAXITER)
 	{
-		re -= calc_re(nt, re);
-		im -= calc_im(nt, im);
+		calc_fdfp(nt, re, im, fdfp);
+		re -= fdfp[0];
+		im -= fdfp[1];
 		conv = check_conv(nt, re, im);
 		if (conv != -1)
 			return (converse_iter(nt, conv));
@@ -32,37 +34,36 @@ int	newton_mtd(t_newton *nt, double re, double im)
 
 int	converse_iter(t_newton *nt, int idx)
 {
-	return (0xffffff / (double)(nt->degree) * (double)(idx + 1));
+	return (floor(MAXITER / (double)(nt->degree) * (double)(idx + 1)));
 }
 
-double	calc_re(t_newton *nt, double re)
+void	calc_fdfp(t_newton *nt, double re, double im, double *result)
 {
+	double	res[2];
 	int		i;
-	double	res;
 
-	res = 0;
 	i = 0;
+	result[0] = 0;
+	result[1] = 0;
 	while (i < nt->degree)
 	{
-		res += re - nt->sol_re[i];
+		inverse_complex(re - nt->sol_re[i], im - nt->sol_im[i], res);
+		result[0] += res[0];
+		result[1] += res[1];
 		i++;
 	}
-	return (res);
+	inverse_complex(result[0], result[1], result);
+	return ;
 }
 
-double	calc_im(t_newton *nt, double im)
+void	inverse_complex(double re, double im, double *res)
 {
-	int		i;
-	double	res;
+	double	size;
 
-	res = 0;
-	i = 0;
-	while (i < nt->degree)
-	{
-		res += im - nt->sol_im[i];
-		i++;
-	}
-	return (res);
+	size = pow(pow(re, 2.0) + pow(im, 2.0), -1);
+	res[0] = re * size;
+	res[1] = -im * size;
+	return ;
 }
 
 int	check_conv(t_newton *nt, double re, double im)

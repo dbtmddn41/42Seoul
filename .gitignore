@@ -9,3 +9,4 @@ test*
 a.out
 .vscode/*
 .DS_Store
+.vscode/settings.json

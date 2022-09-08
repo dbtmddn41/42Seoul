@@ -40,6 +40,13 @@ int	mouse_hook(int button, int x, int y, t_mlx_data *mlx_data)
 	return (0);
 }
 
+int	key_exit(int keycode, void *param)
+{
+	(void)param;
+	(void)keycode;
+    exit(0);
+}
+
 void	set_default_pix_se(int *pix_start, int *pix_end)
 {
 	pix_start[0] = 0;

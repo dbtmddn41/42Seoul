@@ -80,20 +80,6 @@ int	get_color(int iters, int mode)
 	return (color);
 }
 
-/* int	bw_color(int iters)
-{
-	int		red;
-	int		green;
-	int		blue;
-	int		total;
-
-	total = floor(iters * ((255.0 * 3) / MAXITER));
-	red = total / 3 + total % 3 * 3 / 2 % 2;
-	green = total / 3 + total % 3 / 2;
-	blue = total / 3;
-	return (red << 16 | green << 8 | blue);
-} */
-
 void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color)
 {
 	char	*dst;

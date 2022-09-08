@@ -13,13 +13,14 @@
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
 
-# include <stdlib.h>
+# include <stdio.h>
 # include <mlx.h>
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <errno.h>
+# include <sys/errno.h>
+# include <string.h>
 # include "libft.h"
 # define MANDELBROT 0
 # define JULIA 1
@@ -48,14 +49,15 @@
 #  define LSHIFT 257
 #  define ESC 53
 #  define TAB 48
+#  define X_EVENT_KEY_EXIT 17
 # endif
 
 # define SIZE_X 720
 # define SIZE_Y 400
-# define ZOOM_SCALE 0.5
+# define ZOOM_SCALE 0.95
 # define MOVE_X_SCALE (SIZE_X / 15)
 # define MOVE_Y_SCALE (SIZE_Y / 15)
-# define MAXITER 100
+# define MAXITER 31
 # define INI_WIDTH 4.0
 # define INI_HIGHT 2.0
 # define INI_X_SPACE (INI_WIDTH / SIZE_X)
@@ -96,6 +98,7 @@ typedef struct s_mlx_data {
 void	fractol(t_mlx_data *mlx_data);
 int		check_arg(int argc, char *argv[], t_mlx_data *mlx_data);
 int		is_bounded(double z_re, double z_im, double c_re, double c_im);
+int		key_exit(int keycode, void *param);
 void	init_(t_mlx_data *mlx_data);
 int		key_hook(int keycode, t_mlx_data *mlx_data);
 int		mouse_hook(int button, int x, int y, t_mlx_data *mlx_data);
@@ -111,10 +114,13 @@ void	move_y(int keycode, t_mlx_data *mlx_data);
 void	pixel_cpy(t_mlx_data *mlx_data, int to[2], int from[2]);
 int		newton(int argc, char *argv[], t_mlx_data *mlx_data);
 int		newton_mtd(t_newton *nt, double re, double im);
+void	inverse_complex(double re, double im, double *res);
 int		converse_iter(t_newton *nt, int idx);
-double	calc_re(t_newton *nt, double re);
-double	calc_im(t_newton *nt, double im);
+void	calc_fdfp(t_newton *nt, double re, double im, double *result);
 int		check_conv(t_newton *nt, double re, double im);
 int		find_closest(t_newton *nt, double re, double im);
+void	errcheck(int errnum);
+void	arg_error(void);
+double	ft_atof(const char *str);
 
 #endif
