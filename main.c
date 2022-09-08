@@ -67,7 +67,7 @@ void	fractol(t_mlx_data *mlx_data)
 	mlx_loop(mlx_data->mlx);
 }
 
-void	init_(t_mlx_data *mlx_data)
+void	init_(t_mlx_data *mlx_data)		//예외처리
 {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	mlx_data->mlx = mlx_init();

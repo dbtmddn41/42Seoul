@@ -42,6 +42,15 @@ void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2])
 	}
 }
 
+int	bw_color(int iters)
+{
+	double	v;
+
+	v = pow((double)iters / MAXITER * 0xff, 1.5);
+	v = fmod(v, 0xff);
+	return ((int)v << 16 | (int)v << 8 | (int)v);
+}
+
 int	get_color(int iters, int mode)
 {
 	static int	color_type = 0;
@@ -67,7 +76,7 @@ int	get_color(int iters, int mode)
 	return (color);
 }
 
-int	bw_color(int iters)
+/* int	bw_color(int iters)
 {
 	int		red;
 	int		green;
@@ -79,7 +88,7 @@ int	bw_color(int iters)
 	green = total / 3 + total % 3 / 2;
 	blue = total / 3;
 	return (red << 16 | green << 8 | blue);
-}
+} */
 
 void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color)
 {

@@ -43,7 +43,7 @@
 # define ZOOM_SCALE 0.98
 # define MOVE_X_SCALE (SIZE_X / 15)
 # define MOVE_Y_SCALE (SIZE_Y / 15)
-# define MAXITER 1000
+# define MAXITER 100
 # define INI_WIDTH 4.0
 # define INI_HIGHT 2.0
 # define INI_X_SPACE (INI_WIDTH / SIZE_X)
