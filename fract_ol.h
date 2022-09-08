@@ -19,9 +19,11 @@
 # include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <errno.h>
 # include "libft.h"
 # define MANDELBROT 0
 # define JULIA 1
+# define NEWTON 2
 # define DBL_EPSILON 2.2204460492503131e-16
 
 # ifdef __linux__
@@ -34,13 +36,23 @@
 #  define LSHIFT 0xffe1
 #  define ESC 0xff1b
 #  define TAB 0xff09
-#  define MotionNotify	6
-#  define PointerMotionMask	(1L<<6)
 # endif
 
-# define SIZE_X 1920
-# define SIZE_Y 1080
-# define ZOOM_SCALE 0.98
+# ifdef __APPLE__
+#  define WHEEL_UP 4
+#  define WHEEL_DOWN 5
+#  define L_ARROW 123
+#  define U_ARROW 126
+#  define R_ARROW 124
+#  define D_ARROW 125
+#  define LSHIFT 257
+#  define ESC 53
+#  define TAB 48
+# endif
+
+# define SIZE_X 720
+# define SIZE_Y 400
+# define ZOOM_SCALE 0.5
 # define MOVE_X_SCALE (SIZE_X / 15)
 # define MOVE_Y_SCALE (SIZE_Y / 15)
 # define MAXITER 100
@@ -49,14 +61,14 @@
 # define INI_X_SPACE (INI_WIDTH / SIZE_X)
 # define INI_Y_SPACE (INI_HIGHT / SIZE_Y)
 
-typedef struct	s_complex_num
+typedef struct s_complex_num
 {
 	double	num_start[2];
 	double	space[2];
 	double	constant[2];
 }t_complex_num;
 
-typedef struct	s_img_data
+typedef struct s_img_data
 {
 	void			*img;
 	char			*addr;
@@ -65,12 +77,20 @@ typedef struct	s_img_data
 	int				endian;
 }t_img_data;
 
-typedef struct	s_mlx_data {
+typedef struct s_newton
+{
+	int		degree;
+	double	*sol_re;
+	double	*sol_im;
+}t_newton;
+
+typedef struct s_mlx_data {
 	void			*mlx;
 	void			*win;
 	t_img_data		img_data;
 	t_complex_num	complex_num;
 	int				fractal_type;
+	t_newton		*newton;
 }t_mlx_data;
 
 void	fractol(t_mlx_data *mlx_data);
@@ -89,5 +109,12 @@ void	cpy_known_y(t_mlx_data *mlx_data, int to_up);
 void	move_x(int keycode, t_mlx_data *mlx_data);
 void	move_y(int keycode, t_mlx_data *mlx_data);
 void	pixel_cpy(t_mlx_data *mlx_data, int to[2], int from[2]);
+int		newton(int argc, char *argv[], t_mlx_data *mlx_data);
+int		newton_mtd(t_newton *nt, double re, double im);
+int		converse_iter(t_newton *nt, int idx);
+double	calc_re(t_newton *nt, double re);
+double	calc_im(t_newton *nt, double im);
+int		check_conv(t_newton *nt, double re, double im);
+int		find_closest(t_newton *nt, double re, double im);
 
 #endif

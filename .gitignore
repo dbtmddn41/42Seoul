@@ -1,5 +1,11 @@
 minilibx-linux/
+mlx/
 mlx_practice/
 *.o
 peda-*
 .gdb_history
+*.gch
+test*
+a.out
+.vscode/*
+.DS_Store

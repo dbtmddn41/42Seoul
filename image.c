@@ -32,15 +32,18 @@ void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2])
 		while (j < pix_end[0])
 		{
 			if (mlx_data->fractal_type == MANDELBROT)
-				res = is_bounded(0, 0, start[0] + j * space[0], start[1] - i * space[1]);
+				res = is_bounded(0, 0, start[0] + j * space[0], start[1] + i * space[1]);
 			else if (mlx_data->fractal_type == JULIA)
-				res = is_bounded(start[0] + j * space[0], start[1] - i * space[1], mlx_data->complex_num.constant[0], mlx_data->complex_num.constant[1]);
-			my_mlx_pixel_put(mlx_data, j, i, get_color(res, 1));
+				res = is_bounded(start[0] + j * space[0], start[1] + i * space[1], mlx_data->complex_num.constant[0], mlx_data->complex_num.constant[1]);
+			else if (mlx_data->fractal_type == NEWTON)
+				res = newton_mtd(mlx_data->newton, start[0] + j * space[0], start[1] + i * space[1]);
+			my_mlx_pixel_put(mlx_data, j, i, mlx_get_color_value(mlx_data->mlx, get_color(res, 1)));
 			j++;
 		}
 		i++;
 	}
 }
+
 
 int	bw_color(int iters)
 {
@@ -68,6 +71,7 @@ int	get_color(int iters, int mode)
 	else if (color_type == 1)
 	{
 		color = ~(int)(0xffffff / (double)MAXITER * (double)iters);
+		color &= 0x00ffffff;
 	}
 	else
 	{
@@ -94,6 +98,7 @@ void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = mlx_data->img_data.addr + (y * mlx_data->img_data.line_length + x * (mlx_data->img_data.bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	dst = mlx_data->img_data.addr + ((SIZE_Y - 1 - y) * mlx_data->img_data.line_length + x
+			* (mlx_data->img_data.bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }

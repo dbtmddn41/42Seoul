@@ -28,7 +28,7 @@ int	mouse_hook(int button, int x, int y, t_mlx_data *mlx_data)
 		}
 		scale = pow(ZOOM_SCALE, zoom);
 		mlx_data->complex_num.num_start[0] += (1.0 - pow(ZOOM_SCALE, pow(-1, button == WHEEL_DOWN))) * (x) * (INI_X_SPACE * scale);
-		mlx_data->complex_num.num_start[1] -= (1.0 - pow(ZOOM_SCALE, pow(-1, button == WHEEL_DOWN))) * (y) * (INI_Y_SPACE * scale);
+		mlx_data->complex_num.num_start[1] += (1.0 - pow(ZOOM_SCALE, pow(-1, button == WHEEL_DOWN))) * (y) * (INI_Y_SPACE * scale);
 		zoom += pow(-1, button == WHEEL_DOWN);
 		scale = pow(ZOOM_SCALE, zoom);
 		mlx_data->complex_num.space[0] = scale * INI_X_SPACE;
@@ -53,7 +53,8 @@ int	key_hook(int keycode, t_mlx_data *mlx_data)
 	int			pix_start[2];
 	int			pix_end[2];
 
-	if (L_ARROW <= keycode && keycode <= D_ARROW)
+	if (L_ARROW == keycode || keycode == D_ARROW
+		|| keycode == U_ARROW || keycode == R_ARROW)
 	{
 		if (keycode == L_ARROW || keycode == R_ARROW)
 			move_x(keycode, mlx_data);
@@ -130,12 +131,11 @@ void	cpy_known_y(t_mlx_data *mlx_data, int to_up)
 	}
 }
 
-
 void	move_x(int keycode, t_mlx_data *mlx_data)
 {
 	int	pix_start[2];
 	int	pix_end[2];
-	
+
 	if (keycode == R_ARROW)
 	{
 		mlx_data->complex_num.num_start[0] += MOVE_X_SCALE * mlx_data->complex_num.space[0];
@@ -159,20 +159,20 @@ void	move_y(int keycode, t_mlx_data *mlx_data)
 {
 	int	pix_start[2];
 	int	pix_end[2];
-	
+
 	if (keycode == D_ARROW)
 	{
 		mlx_data->complex_num.num_start[1] -= MOVE_Y_SCALE * mlx_data->complex_num.space[1];
 		cpy_known_y(mlx_data, 1);
-		pix_start[1] = SIZE_Y - MOVE_Y_SCALE;
-		pix_end[1] = SIZE_Y;
+		pix_start[1] = 0;
+		pix_end[1] = MOVE_Y_SCALE;
 	}
 	else if (keycode == U_ARROW)
 	{
 		mlx_data->complex_num.num_start[1] += MOVE_Y_SCALE * mlx_data->complex_num.space[1];
 		cpy_known_y(mlx_data, -1);
-		pix_start[1] = 0;
-		pix_end[1] = MOVE_Y_SCALE;
+		pix_start[1] = SIZE_Y - MOVE_Y_SCALE;
+		pix_end[1] = SIZE_Y;
 	}
 	pix_start[0] = 0;
 	pix_end[0] = SIZE_X;
