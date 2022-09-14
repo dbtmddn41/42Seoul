@@ -14,16 +14,11 @@
 
 void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2])
 {
-	int		i;
-	int		j;
-	int		res;
-	double	start[2];
-	double	space[2];
+	int			i;
+	int			j;
+	int			res;
+	t_complex	pix_num;
 
-	start[0] = mlx_data->complex_num.n_start[0];
-	start[1] = mlx_data->complex_num.n_start[1];
-	space[0] = mlx_data->complex_num.space[0];
-	space[1] = mlx_data->complex_num.space[1];
 	res = 0;
 	i = pix_start[1];
 	while (i < pix_end[1])
@@ -31,8 +26,11 @@ void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2])
 		j = pix_start[0];
 		while (j < pix_end[0])
 		{
-			res = iterate(mlx_data, start[0] + j * space[0],
-					start[1] + i * space[1]);
+			pix_num.re = mlx_data->pixel_num.n_start.re
+				+ j * mlx_data->pixel_num.space.re;
+			pix_num.im = mlx_data->pixel_num.n_start.im
+				+ i * mlx_data->pixel_num.space.im;
+			res = iterate(mlx_data, pix_num);
 			my_mlx_pixel_put(mlx_data, j, i, mlx_get_color_value(mlx_data->mlx,
 					get_color(res, 1)));
 			j++;
@@ -41,16 +39,18 @@ void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2])
 	}
 }
 
-int	bw_color(int iters)
+int	bw_color(double iters)
 {
 	double	v;
+	int		rgb;
 
-	v = pow((double)iters / MAXITER * 0xff, 1.5);
+	v = pow(pow(iters / MAXITER, 1.0) * 0xff, 1.5);
 	v = fmod(v, 0xff);
-	return ((int)v << 16 | (int)v << 8 | (int)v);
+	rgb = floor(iters / MAXITER * 0xff);
+	return (rgb << 16 | rgb << 8 | rgb);
 }
 
-int	get_color(int iters, int mode)
+int	get_color(double iters, int mode)
 {
 	static int	color_type = 0;
 	int			color;
@@ -66,7 +66,7 @@ int	get_color(int iters, int mode)
 	}
 	else if (color_type == 1)
 	{
-		color = ~(int)(0xffffff / (double)MAXITER * (double)iters);
+		color = ~(int)(0xffffff / MAXITER * (double)iters);
 		color &= 0x00ffffff;
 	}
 	else
@@ -86,17 +86,16 @@ void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	iterate(t_mlx_data *mlx_data, double re, double im)
+int	iterate(t_mlx_data *mlx_data, t_complex n)
 {
 	int	res;
 
 	if (mlx_data->fractal_type == MANDELBROT)
-		res = is_bounded(0, 0, re, im);
+		res = is_bounded(&(t_complex){0, 0}, &n);
 	else if (mlx_data->fractal_type == JULIA)
-		res = is_bounded(re, im, mlx_data->complex_num.constant[0],
-				mlx_data->complex_num.constant[1]);
+		res = is_bounded(&n, &(mlx_data->pixel_num.constant));
 	else if (mlx_data->fractal_type == NEWTON)
-		res = newton_mtd(mlx_data->newton, im, re);
+		res = newton_mtd(mlx_data->newton, n.im, n.re);
 	else
 		res = 0;
 	return (res);

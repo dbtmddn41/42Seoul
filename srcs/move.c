@@ -73,16 +73,16 @@ void	move_x(int keycode, t_mlx_data *mlx_data)
 
 	if (keycode == R_ARROW)
 	{
-		mlx_data->complex_num.n_start[0] += (SIZE_X / MOVE_RATE)
-			* mlx_data->complex_num.space[0];
+		mlx_data->pixel_num.n_start.re += (SIZE_X / MOVE_RATE)
+			* mlx_data->pixel_num.space.re;
 		cpy_known_x(mlx_data, 1);
 		pix_start[0] = SIZE_X - (SIZE_X / MOVE_RATE);
 		pix_end[0] = SIZE_X;
 	}
 	else if (keycode == L_ARROW)
 	{
-		mlx_data->complex_num.n_start[0] -= (SIZE_X / MOVE_RATE)
-			* mlx_data->complex_num.space[0];
+		mlx_data->pixel_num.n_start.re -= (SIZE_X / MOVE_RATE)
+			* mlx_data->pixel_num.space.re;
 		cpy_known_x(mlx_data, -1);
 		pix_start[0] = 0;
 		pix_end[0] = (SIZE_X / MOVE_RATE);
@@ -99,16 +99,16 @@ void	move_y(int keycode, t_mlx_data *mlx_data)
 
 	if (keycode == D_ARROW)
 	{
-		mlx_data->complex_num.n_start[1] -= (SIZE_Y / MOVE_RATE)
-			* mlx_data->complex_num.space[1];
+		mlx_data->pixel_num.n_start.im -= (SIZE_Y / MOVE_RATE)
+			* mlx_data->pixel_num.space.im;
 		cpy_known_y(mlx_data, 1);
 		pix_start[1] = 0;
 		pix_end[1] = (SIZE_Y / MOVE_RATE);
 	}
 	else if (keycode == U_ARROW)
 	{
-		mlx_data->complex_num.n_start[1] += (SIZE_Y / MOVE_RATE)
-			* mlx_data->complex_num.space[1];
+		mlx_data->pixel_num.n_start.im += (SIZE_Y / MOVE_RATE)
+			* mlx_data->pixel_num.space.im;
 		cpy_known_y(mlx_data, -1);
 		pix_start[1] = (SIZE_Y - SIZE_Y / MOVE_RATE);
 		pix_end[1] = SIZE_Y;

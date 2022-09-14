@@ -52,20 +52,28 @@
 #  define X_EVENT_KEY_EXIT 17
 # endif
 
-# define SIZE_X 720
-# define SIZE_Y 400
+# define SIZE_X 1080
+# define SIZE_Y 720
 # define ZOOM_RATE 0.95
 # define MOVE_RATE 15
 # define MAXITER 31
 # define INI_WIDTH 4.0
 # define INI_HIGHT 2.0
+# define INI_START_X -2.0
+# define INI_START_Y -1.0
 
-typedef struct s_complex_num
+typedef struct s_complex
 {
-	double	n_start[2];
-	double	space[2];
-	double	constant[2];
-}t_complex_num;
+	double	re;
+	double	im;
+}t_complex;
+
+typedef struct s_pixel_num
+{
+	t_complex	n_start;
+	t_complex	space;
+	t_complex	constant;
+}t_pixel_num;
 
 typedef struct s_img_data
 {
@@ -78,32 +86,30 @@ typedef struct s_img_data
 
 typedef struct s_newton
 {
-	int		degree;
-	double	*sol_re;
-	double	*sol_im;
+	int			degree;
+	t_complex	*sol;
 }t_newton;
 
 typedef struct s_mlx_data {
 	void			*mlx;
 	void			*win;
 	t_img_data		imgdata;
-	t_complex_num	complex_num;
+	t_pixel_num		pixel_num;
 	int				fractal_type;
 	t_newton		*newton;
 }t_mlx_data;
 
 void	fractol(t_mlx_data *mlx_data);
 int		check_arg(int argc, char *argv[], t_mlx_data *mlx_data);
-int		is_bounded(double z_re, double z_im, double c_re, double c_im);
-int		key_exit(int keycode, void *param);
+int		is_bounded(t_complex *z, t_complex *c);
 void	init_(t_mlx_data *mlx_data);
 int		key_hook(int keycode, t_mlx_data *mlx_data);
 int		mouse_hook(int button, int x, int y, t_mlx_data *mlx_data);
 void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color);
 void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2]);
-int		iterate(t_mlx_data *mlx_data, double re, double im);
-int		bw_color(int iters);
-int		get_color(int iters, int mode);
+int		iterate(t_mlx_data *mlx_data, t_complex n);
+int		bw_color(double iters);
+int		get_color(double iters, int mode);
 void	set_default_pix_se(int *pix_start, int *pix_end);
 void	cpy_known_x(t_mlx_data *mlx_data, int to_left);
 void	cpy_known_y(t_mlx_data *mlx_data, int to_up);
@@ -120,5 +126,9 @@ int		find_closest(t_newton *nt, double re, double im);
 void	errcheck(int errnum);
 void	arg_error(void);
 double	ft_atof(const char *str);
+int		close_exit(t_mlx_data *mlx_data);
+
+double	*is_bounded2(double z_re, double z_im, double c_re, double c_im);
+double	iterate2(t_mlx_data *mlx_data, t_complex n);
 
 #endif

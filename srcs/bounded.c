@@ -12,43 +12,54 @@
 
 #include "fract_ol.h"
 
-int	is_bounded(double z_re, double z_im, double c_re, double c_im)
+int	is_bounded(t_complex *z, t_complex *c)
 {
-	double			tmp;
+	t_complex		tmp;
 	unsigned int	i;
 
 	i = 0;
 	while (i < MAXITER)
 	{
-		tmp = z_re * z_re - z_im * z_im + c_re;
-		z_im = 2 * z_re * z_im + c_im;
-		z_re = tmp;
-		if (z_re * z_re + z_im * z_im > 4)
+		tmp.re = z->re * z->re - z->im * z->im + c->re;
+		tmp.im = 2 * z->re * z->im + c->im;
+		if (fabs(tmp.re - z->re) < DBL_EPSILON
+			&& fabs(tmp.im - z->im) < DBL_EPSILON)
+			return (MAXITER);
+		z->re = tmp.re;
+		z->im = tmp.im;
+		if (z->re * z->re + z->im * z->im > 4)
 			break ;
 		i++;
 	}
 	return (i);
 }
-
-double	*is_bounded2(double z_re, double z_im, double c_re, double c_im)
+/* 
+double	iterate2(t_mlx_data *mlx_data, t_complex n)
 {
-	double			tmp;
-	unsigned int	i;
-	double			*res;
+	double	res;
+	double	*resm;
+	double	nu;
 
-	i = 0;
-	while (i < MAXITER)
+	if (mlx_data->fractal_type == MANDELBROT)
 	{
-		tmp = z_re * z_re - z_im * z_im + c_re;
-		z_im = 2 * z_re * z_im + c_im;
-		z_re = tmp;
-		if (z_re * z_re + z_im * z_im > (1 << 16))
-			break ;
-		i++;
+		resm = is_bounded2(0, 0, n.re, n.im);
+		if (resm[0] < MAXITER)
+		{
+			nu = log2(log(pow(resm[1], 2) + pow(resm[2], 2)) / 2.0 / log(2));
+			resm[0] = resm[0] + 1 - nu;
+		}
+		// resm[0] = fmod(resm[0], 1);
+		res = resm[0];
+		free(resm);
+		return (res);
 	}
-	res = malloc(sizeof(double) * 3);
-	res[0] = (double)i;
-	res[1] = z_re;
-	res[2] = z_im;
+	else if (mlx_data->fractal_type == JULIA)
+		res = is_bounded(n, mlx_data->pixel_num.constant.re,
+				mlx_data->pixel_num.constant.im);
+	else if (mlx_data->fractal_type == NEWTON)
+		res = newton_mtd(mlx_data->newton, n.im, n.re);
+	else
+		res = 0;
 	return (res);
 }
+ */

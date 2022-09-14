@@ -42,7 +42,7 @@ void	calc_fdfp(t_newton *nt, double re, double im, double *result)
 	result[1] = 0;
 	while (i < nt->degree)
 	{
-		inverse_complex(re - nt->sol_re[i], im - nt->sol_im[i], res);
+		inverse_complex(re - nt->sol[i].re, im - nt->sol[i].im, res);
 		result[0] += res[0];
 		result[1] += res[1];
 		i++;
@@ -68,7 +68,7 @@ int	check_conv(t_newton *nt, double re, double im)
 	i = 0;
 	while (i < nt->degree)
 	{
-		if (fabs(nt->sol_re[i] - re) < DBL_EPSILON && fabs(nt->sol_im[i] - im)
+		if (fabs(nt->sol[i].re - re) < DBL_EPSILON && fabs(nt->sol[i].im - im)
 			< DBL_EPSILON)
 			return (i);
 		i++;
@@ -83,12 +83,12 @@ int	find_closest(t_newton *nt, double re, double im)
 	double	dist;
 	double	min_dist;
 
-	min_dist = pow(nt->sol_re[0] - re, 2) + pow(nt->sol_im[0] - im, 2);
+	min_dist = pow(nt->sol[0].re - re, 2) + pow(nt->sol[0].im - im, 2);
 	close_idx = 0;
 	i = 1;
 	while (i < nt->degree)
 	{
-		dist = pow(nt->sol_re[i] - re, 2) + pow(nt->sol_im[i] - im, 2);
+		dist = pow(nt->sol[i].re - re, 2) + pow(nt->sol[i].im - im, 2);
 		if (dist < min_dist)
 		{
 			min_dist = dist;
