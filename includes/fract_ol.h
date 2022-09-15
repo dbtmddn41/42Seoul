@@ -56,7 +56,7 @@
 # define SIZE_Y 720
 # define ZOOM_RATE 0.95
 # define MOVE_RATE 15
-# define MAXITER 31
+# define MAXITER 10
 # define INI_WIDTH 4.0
 # define INI_HIGHT 2.0
 # define INI_START_X -2.0
@@ -90,7 +90,8 @@ typedef struct s_newton
 	t_complex	*sol;
 }t_newton;
 
-typedef struct s_mlx_data {
+typedef struct s_mlx_data
+{
 	void			*mlx;
 	void			*win;
 	t_img_data		imgdata;
@@ -99,36 +100,41 @@ typedef struct s_mlx_data {
 	t_newton		*newton;
 }t_mlx_data;
 
-void	fractol(t_mlx_data *mlx_data);
-int		check_arg(int argc, char *argv[], t_mlx_data *mlx_data);
-int		is_bounded(t_complex *z, t_complex *c);
-void	init_(t_mlx_data *mlx_data);
-int		key_hook(int keycode, t_mlx_data *mlx_data);
-int		mouse_hook(int button, int x, int y, t_mlx_data *mlx_data);
-void	my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color);
-void	make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2]);
-int		iterate(t_mlx_data *mlx_data, t_complex n);
-int		bw_color(double iters);
-int		get_color(double iters, int mode);
-void	set_default_pix_se(int *pix_start, int *pix_end);
-void	cpy_known_x(t_mlx_data *mlx_data, int to_left);
-void	cpy_known_y(t_mlx_data *mlx_data, int to_up);
-void	move_x(int keycode, t_mlx_data *mlx_data);
-void	move_y(int keycode, t_mlx_data *mlx_data);
-void	pixel_cpy(t_mlx_data *mlx_data, int to[2], int from[2]);
-int		newton(int argc, char *argv[], t_mlx_data *mlx_data);
-int		newton_mtd(t_newton *nt, double re, double im);
-void	inverse_complex(double re, double im, double *res);
-int		converse_iter(t_newton *nt, int idx);
-void	calc_fdfp(t_newton *nt, double re, double im, double *result);
-int		check_conv(t_newton *nt, double re, double im);
-int		find_closest(t_newton *nt, double re, double im);
-void	errcheck(int errnum);
-void	arg_error(void);
-double	ft_atof(const char *str);
-int		close_exit(t_mlx_data *mlx_data);
+typedef struct s_palette
+{
+	int	color_num;
+	int	colors[8];
+}t_palette;
 
-double	*is_bounded2(double z_re, double z_im, double c_re, double c_im);
-double	iterate2(t_mlx_data *mlx_data, t_complex n);
+void		fractol(t_mlx_data *mlx_data);
+int			check_arg(int argc, char *argv[], t_mlx_data *mlx_data);
+int			is_bounded(t_complex *z, t_complex c);
+void		init_(t_mlx_data *mlx_data);
+int			key_hook(int keycode, t_mlx_data *mlx_data);
+int			mouse_hook(int button, int x, int y, t_mlx_data *mlx_data);
+void		my_mlx_pixel_put(t_mlx_data *mlx_data, int x, int y, int color);
+void		make_image(t_mlx_data *mlx_data, int pix_start[2], int pix_end[2]);
+int			iterate(t_mlx_data *mlx_data, t_complex n);
+int			bw_color(double iters);
+int			get_color(int iters, t_complex n, int mode);
+int			get_smoothcolor(int iters, t_complex n, t_palette palette);
+int			linear_interpolate(int color1, int color2, double rate);
+void		set_default_pix_se(int *pix_start, int *pix_end);
+void		cpy_known_x(t_mlx_data *mlx_data, int to_left);
+void		cpy_known_y(t_mlx_data *mlx_data, int to_up);
+void		move_x(int keycode, t_mlx_data *mlx_data);
+void		move_y(int keycode, t_mlx_data *mlx_data);
+void		pixel_cpy(t_mlx_data *mlx_data, int to[2], int from[2]);
+int			newton(int argc, char *argv[], t_mlx_data *mlx_data);
+int			newton_mtd(t_newton *nt, t_complex *n);
+t_complex	inverse_complex(t_complex n);
+int			converse_iter(t_newton *nt, int idx, t_complex *x);
+t_complex	calc_fdfp(t_newton *nt, t_complex *x);
+int			check_conv(t_newton *nt, t_complex *x);
+int			find_closest(t_newton *nt, t_complex *x);
+void		errcheck(int errnum);
+void		arg_error(void);
+double		ft_atof(const char *str);
+int			close_exit(t_mlx_data *mlx_data);
 
 #endif

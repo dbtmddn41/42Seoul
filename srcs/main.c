@@ -19,6 +19,7 @@ int	main(int argc, char *argv[])
 	if (check_arg(argc, argv, &mlx_data) == -1)
 		arg_error();
 	fractol(&mlx_data);
+	exit(0);
 }
 
 int	check_arg(int argc, char *argv[], t_mlx_data *mlx_data)

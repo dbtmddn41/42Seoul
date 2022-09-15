@@ -62,7 +62,7 @@ int	key_hook(int key, t_mlx_data *mlx_data)
 	}
 	else if (key == TAB)
 	{
-		get_color(0, 0);
+		get_color(0, (t_complex){0, 0}, 0);
 		set_default_pix_se(pix_start, pix_end);
 		make_image(mlx_data, pix_start, pix_end);
 	}
@@ -74,7 +74,9 @@ int	key_hook(int key, t_mlx_data *mlx_data)
 	return (0);
 }
 
-int	converse_iter(t_newton *nt, int idx)
+int	converse_iter(t_newton *nt, int idx, t_complex *x)
 {
+	x->re = 2.0 + fabs(nt->sol[idx].re - x->re);
+	x->im = 2.0 + fabs(nt->sol[idx].im - x->im);
 	return (floor(MAXITER / (double)(nt->degree) * (double)(idx + 1)));
 }

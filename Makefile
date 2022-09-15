@@ -40,7 +40,8 @@ SRCS = \
 ./srcs/newton.c \
 ./srcs/others.c \
 ./srcs/move.c \
-./srcs/utils.c
+./srcs/utils.c \
+./srcs/colors.c
 
 HEADERS = ./includes/fract_ol.h
 

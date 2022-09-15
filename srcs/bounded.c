@@ -12,23 +12,21 @@
 
 #include "fract_ol.h"
 
-int	is_bounded(t_complex *z, t_complex *c)
+int	is_bounded(t_complex *z, t_complex c)
 {
 	t_complex		tmp;
 	unsigned int	i;
 
 	i = 0;
-	while (i < MAXITER)
+	while (i < MAXITER && z->re * z->re + z->im * z->im <= 4)
 	{
-		tmp.re = z->re * z->re - z->im * z->im + c->re;
-		tmp.im = 2 * z->re * z->im + c->im;
+		tmp.re = z->re * z->re - z->im * z->im + c.re;
+		tmp.im = 2 * z->re * z->im + c.im;
 		if (fabs(tmp.re - z->re) < DBL_EPSILON
 			&& fabs(tmp.im - z->im) < DBL_EPSILON)
 			return (MAXITER);
 		z->re = tmp.re;
 		z->im = tmp.im;
-		if (z->re * z->re + z->im * z->im > 4)
-			break ;
 		i++;
 	}
 	return (i);
