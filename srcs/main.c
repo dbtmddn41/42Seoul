@@ -96,12 +96,16 @@ void	init_(t_mlx_data *mlx_data)
 {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	mlx_data->mlx = mlx_init();
+	null_check(mlx_data->mlx);
 	mlx_data->win = mlx_new_window(mlx_data->mlx, SIZE_X, SIZE_Y, "fractol");
+	null_check(mlx_data->win);
 	mlx_data->imgdata.img = mlx_new_image(mlx_data->mlx, SIZE_X, SIZE_Y);
+	null_check(mlx_data->imgdata.img);
 	mlx_data->imgdata.addr = mlx_get_data_addr(mlx_data->imgdata.img,
 			&(mlx_data->imgdata.bits_per_pixel),
 			&(mlx_data->imgdata.line_length),
 			&(mlx_data->imgdata.endian));
+	null_check(mlx_data->imgdata.addr);
 	mlx_data->pixel_num.n_start.re = INI_START_X;
 	mlx_data->pixel_num.n_start.im = INI_START_Y;
 	mlx_data->pixel_num.space.re = (INI_WIDTH / SIZE_X);

@@ -14,8 +14,6 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -c -g
 FLAGS = -Wall -Wextra -Werror -g
 TARGET = fractol
-OBJ_INCLUDE = -I/usr/include -Imlx_linux -I. -I./minilibx-linux/ -I$(LIB_DIR)
-INCLUDE = -L./minilibx-linux/ -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -I./minilibx-linux/ -I. -I$(LIB_DIR)
 LIB_DIR = ./libft/
 LIB = ft
 MLX_LIB_DIR = ./mlx/
@@ -29,7 +27,7 @@ INCLUDE = -L./minilibx-linux/ -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -l
 endif
 ifeq ($(UNAME), Darwin)
 OBJ_INCLUDE = -Imlx -I$(LIB_DIR) -Iincludes
-INCLUDE = -L$(MLX_LIB) -I$(MLX_LIB) -framework OpenGL -framework AppKit -Iincludes -I$(LIB_DIR)
+INCLUDE = -L. -l$(MLX_LIB) -I$(MLX_LIB_DIR) -framework OpenGL -framework AppKit -Iincludes -I$(LIB_DIR) -L$(LIB_DIR) -l$(LIB)
 endif
 
 SRCS = \
@@ -57,9 +55,7 @@ $(LIB):
 	make -C $(LIB_DIR)
 
 $(TARGET): $(OBJS) $(HEADERS)
-	make -C $(MLX_LIB_DIR)
-	cp $(MLX_LIB_DIR)libmlx.dylib .
-	$(CC) $(FLAGS) -o $@ $(OBJS) $(INCLUDE) $(LIB_DIR)lib$(LIB).a lib$(MLX_LIB).dylib
+	$(CC) $(FLAGS) -o $@ $(OBJS) $(INCLUDE)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o ${<:.c=.o} $(OBJ_INCLUDE)

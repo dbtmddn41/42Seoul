@@ -17,3 +17,9 @@ int	close_exit(t_mlx_data *mlx_data)
 	mlx_destroy_window(mlx_data->mlx, mlx_data->win);
 	exit(0);
 }
+
+void	null_check(void *ptr)
+{
+	if (ptr == NULL)
+		exit(-1);
+}

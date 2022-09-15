@@ -136,5 +136,6 @@ void		errcheck(int errnum);
 void		arg_error(void);
 double		ft_atof(const char *str);
 int			close_exit(t_mlx_data *mlx_data);
+void		null_check(void *ptr);
 
 #endif
